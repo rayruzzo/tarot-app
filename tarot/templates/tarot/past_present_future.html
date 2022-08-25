@@ -1,0 +1,104 @@
+{% extends 'tarot/base.html' %}
+
+{% block head %}
+<title>Your tarot reading</title>
+{% endblock %}
+
+{%block header%}
+<section class="pt-3 pb-1 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">{{name}}'s Tarot Reading</h1>
+      <p class="lead text-muted">
+        {{question}}
+      </p>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="album bg-secondary pb-5 text-dark">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <h1>Past</h1>
+          {% if past_reversed == 0 %}
+            <img src="{{past.image.url}}">
+          {% else %}
+            <img src="{{past.image.url}}" style="transform:rotate(180deg)">
+          {% endif %}
+          <div class="card-body">
+            <h2>{{past.name}}</h2>
+            {% if past_reversed == 1 %}
+            <h3>Reversed</h3>
+            {% endif %}
+            <p class="card-text">
+                {% if past_reversed == 0 %}
+                  {{past.meaning}}
+                 {% else %}
+                    {{past.reversed_meaning}}
+                 {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <h1>Present</h1>
+          {% if present_reversed == 0 %}
+            <img src="{{present.image.url}}">
+          {% else %}
+            <img src="{{present.image.url}}" style="transform:rotate(180deg)">
+          {% endif %}
+          <div class="card-body">
+              <h2>{{present.name}}</h2>
+              {% if present_reversed == 1 %}
+                <h3>Reversed</h3>
+              {% endif %}
+            <p class="card-text">
+                {% if present_reversed == 0 %}
+                    {{present.meaning}}
+                  {% else %}
+                      {{present.reversed_meaning}}
+                  {% endif %}
+            </p>
+          </div>
+        </div>
+     </div>
+
+     <div class="col">
+        <div class="card shadow-sm">
+          <h1>Future</h1>
+          {% if future_reversed == 0 %}
+            <img src="{{future.image.url}}">
+          {% else %}
+            <img src="{{future.image.url}}" style="transform:rotate(180deg)">
+          {% endif %}
+          <div class="card-body">
+              <h2>{{future.name}}</h2>
+              {% if future_reversed == 1 %}
+                <h3>Reversed</h3>
+              {% endif %}
+            <p class="card-text">
+                {% if future_reversed == 0 %}
+                    {{future.meaning}}
+                  {% else %}
+                      {{future.reversed_meaning}}
+                  {% endif %}
+            </p>
+          </div>
+        </div>
+    </div>
+  </div>
+ </div>
+</div>
+<div class="container mt-3">
+  <a href="{% url 'home' %}"><button type="button" class="btn btn-secondary">Try another reading</button></a>
+</div>
+
+{% endblock %}
