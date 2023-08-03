@@ -27,9 +27,9 @@
         <div class="card shadow-sm">
           <h1>Past</h1>
           {% if past_reversed == 0 %}
-            <img src="{{past.image.url}}">
+            <img src="{{ MEDIA_URL }}{{past.image}}">
           {% else %}
-            <img src="{{past.image.url}}" style="transform:rotate(180deg)">
+            <img src="{{ MEDIA_URL }}{{past.image}}" style="transform:rotate(180deg)">
           {% endif %}
           <div class="card-body">
             <h2>{{past.name}}</h2>
@@ -38,9 +38,9 @@
             {% endif %}
             <p class="card-text">
                 {% if past_reversed == 0 %}
-                  {{past.meaning}}
+                  {{past.meaning_up}}
                  {% else %}
-                    {{past.reversed_meaning}}
+                    {{past.meaning_rev}}
                  {% endif %}
             </p>
           </div>
@@ -51,9 +51,9 @@
         <div class="card shadow-sm">
           <h1>Present</h1>
           {% if present_reversed == 0 %}
-            <img src="{{present.image.url}}">
+            <img src="{{ MEDIA_URL }}{{present.image}}">
           {% else %}
-            <img src="{{present.image.url}}" style="transform:rotate(180deg)">
+            <img src="{{ MEDIA_URL }}{{present.image}}" style="transform:rotate(180deg)">
           {% endif %}
           <div class="card-body">
               <h2>{{present.name}}</h2>
@@ -62,9 +62,9 @@
               {% endif %}
             <p class="card-text">
                 {% if present_reversed == 0 %}
-                    {{present.meaning}}
+                    {{present.meaning_up}}
                   {% else %}
-                      {{present.reversed_meaning}}
+                      {{present.meaning_rev}}
                   {% endif %}
             </p>
           </div>
@@ -75,9 +75,9 @@
         <div class="card shadow-sm">
           <h1>Future</h1>
           {% if future_reversed == 0 %}
-            <img src="{{future.image.url}}">
+            <img src="{{ MEDIA_URL }}{{future.image}}">
           {% else %}
-            <img src="{{future.image.url}}" style="transform:rotate(180deg)">
+            <img src="{{ MEDIA_URL }}{{future.image}}" style="transform:rotate(180deg)">
           {% endif %}
           <div class="card-body">
               <h2>{{future.name}}</h2>
@@ -86,9 +86,9 @@
               {% endif %}
             <p class="card-text">
                 {% if future_reversed == 0 %}
-                    {{future.meaning}}
+                    {{future.meaning_up}}
                   {% else %}
-                      {{future.reversed_meaning}}
+                      {{future.meaning_rev}}
                   {% endif %}
             </p>
           </div>
