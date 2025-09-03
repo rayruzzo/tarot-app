@@ -1,32 +1,32 @@
-from random import randint
+
 from django.shortcuts import render
-from .models import tarotCard
 from . import forms
-import random
-import requests
+from django.conf import settings
+from .utils import get_tarot_cards, generate_interpretation
 
-# Create your views here.
-def randomCard(request):
-    queryset = tarotCard.objects.all()
-    names = [card.name for card in queryset]
-    int = random.randint(0,78)
-    card = tarotCard.objects.get(name=names[int])
-    return render(request, 'tarot/random_card.html', context={'card':card})
-
-def pastPresentFuture(request):
-    cards = requests.get("https://tarot-api-3hv5.onrender.com/api/v1/cards/random?n=3")
-    cards = cards.json()
-    context = {"past": cards["cards"][0],
-                   "present": cards["cards"][1], 
-                   "future": cards["cards"][2]}
-    context['past_reversed'] = random.randint(0,1)
-    context['present_reversed'] = random.randint(0,1)
-    context['future_reversed'] = random.randint(0,1)
-    context['past']['image'] = f"/media/tarot/cards/{context['past']['name'].replace(' ','_')}.jpg"
-    context['present']['image'] = f"/media/tarot/cards/{context['present']['name'].replace(' ','_')}.jpg"
-    context['future']['image'] = f"/media/tarot/cards/{context['future']['name'].replace(' ','_')}.jpg"
-
-    return render(request, 'tarot/past_present_future.html', context=context)
+def past_present_future(request):
+    if request.method == "POST":
+        form = forms.readingForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            print(name)
+            question = form.cleaned_data["question"]
+            cards = get_tarot_cards(3)
+            positions = ["Past", "Present", "Future"]
+            for i, card in enumerate(cards):
+                card["position"] = positions[i]
+            print(cards)
+            interpretation = generate_interpretation(cards, name, question)
+            context = {
+                "name": name,
+                "form": form,
+                "cards": cards,
+                "interpretation": interpretation,
+            }
+            return render(request, "tarot/past_present_future.html", context)
+    else:
+        form = forms.readingForm()
+    return render(request, "tarot/home.html", {"form": form})
 
 def home(request):
     form = forms.readingForm()

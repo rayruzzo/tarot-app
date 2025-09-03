@@ -22,8 +22,7 @@ from tarot import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home,name='home'),
-    path('random_card/', views.randomCard),
-    path('past_present_future/', views.pastPresentFuture, name='reading')
+    path('past_present_future/', views.past_present_future, name='reading'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
