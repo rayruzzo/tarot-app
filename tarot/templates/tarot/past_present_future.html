@@ -19,14 +19,14 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
   {% for card in cards %}
-  <div class="col">
-    <div class="card shadow-sm bg-light text-dark">
-      <h1>{{ card.position }}</h1>
-      <img class="img-fluid" src="{{ MEDIA_URL }}{{ card.image }}"
-           {% if card.reversed %}style="transform:rotate(180deg)"{% endif %}>
+  <div class="col d-flex justify-content-center">
+    <div class="card shadow-sm bg-light text-dark" style="width: 100%; max-width: 220px;">
+      <h1 class="text-center">{{ card.position }}</h1>
+      <img class="img-fluid d-block mx-auto" src="{{ MEDIA_URL }}{{ card.image }}"
+           {% if card.reversed %}style="transform:rotate(180deg); max-width: 200px;"{% else %}style="max-width: 200px;"{% endif %}>
       <div class="card-body">
-        <h2>{{ card.name }}</h2>
-        {% if card.reversed %}<h3>Reversed</h3>{% endif %}
+        <h2 class="text-center">{{ card.name }}</h2>
+        {% if card.reversed %}<h3 class="text-center">Reversed</h3>{% endif %}
         <p class="card-text">
           {% if not card.reversed %}{{ card.meaning_up }}{% else %}{{ card.meaning_rev }}{% endif %}
         </p>
@@ -34,6 +34,7 @@
     </div>
   </div>
   {% endfor %}
+  
 
 </div>
 
