@@ -2,6 +2,46 @@
 
 {% block head %}
 <title>Lilia's Safe Passage</title>
+<style>
+  .tarot-row {
+    margin-bottom: 1rem;
+    gap: 1.5rem;           
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tarot-card {
+    flex: 1 1 220px;     
+    max-width: 260px;    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    text-align: center;
+    margin: 0 auto;
+  }
+  .tarot-img {
+    width: 85%;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.5rem auto;
+  }
+  .tarot-img.reversed {
+    transform: rotate(180deg);
+  }
+
+  /* Destination overlay */
+  .destination-wrapper {
+    position: relative;
+    top: -180px; /* pull upward to overlap Traveler */
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+  }
+  .destination-card {
+    transform: rotate(90deg);
+    max-width: 220px;
+  }
+</style>
 {% endblock %}
 
 {% block header %}
@@ -17,56 +57,67 @@
 
 {% block content %}
 
-<!-- Top Card: Traveler -->
-<div class="row justify-content-center mb-4">
-  <div class="col-auto">
-    <div class="card shadow-sm bg-light text-dark text-center p-2">
-      <h2>{{ cards.0.position }}</h2>
-      <img class="img-fluid" src="{{ MEDIA_URL }}{{ cards.0.image }}" 
-           {% if cards.0.reversed %}style="transform:rotate(180deg); max-width:200px"{% else %}style="max-width:200px;"{% endif %}>
-      <p class="card-text">
-        {% if not cards.0.reversed %}{{ cards.0.meaning_up }}{% else %}{{ cards.0.meaning_rev }}{% endif %}
-      </p>
-    </div>
+<!-- Row 1: Path Behind, Path Ahead -->
+<div class="tarot-row">
+  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
+    <h4>{{ cards.2.position }}</h4>
+    <img class="tarot-img {% if cards.2.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.2.image }}">
+    <p>{% if not cards.2.reversed %}{{ cards.2.meaning_up }}{% else %}{{ cards.2.meaning_rev }}{% endif %}</p>
+  </div>
+
+  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
+    <h4>{{ cards.3.position }}</h4>
+    <img class="tarot-img {% if cards.3.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.3.image }}">
+    <p>{% if not cards.3.reversed %}{{ cards.3.meaning_up }}{% else %}{{ cards.3.meaning_rev }}{% endif %}</p>
   </div>
 </div>
 
-<!-- Middle 5 cards forming the pentagram (positions 2-6) -->
-<div class="row justify-content-center mb-4 g-3">
-  {% for card in cards|slice:"1:6" %}
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-    <div class="card shadow-sm bg-light text-dark text-center p-2">
-      <h4>{{ card.position }}</h4>
-      <img class="img-fluid" src="{{ MEDIA_URL }}{{ card.image }}" 
-           {% if card.reversed %}style="transform:rotate(180deg); max-width:150px"{% else %}style="max-width:150px;"{% endif %}>
-      <p class="card-text">
-        {% if not card.reversed %}{{ card.meaning_up }}{% else %}{{ card.meaning_rev }}{% endif %}
-      </p>
-    </div>
+<!-- Row 2: Obstacles, Traveler, Windfall -->
+<div class="tarot-row">
+  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
+    <h4>{{ cards.4.position }}</h4>
+    <img class="tarot-img {% if cards.4.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.4.image }}">
+    <p>{% if not cards.4.reversed %}{{ cards.4.meaning_up }}{% else %}{{ cards.4.meaning_rev }}{% endif %}</p>
   </div>
-  {% endfor %}
-</div>
 
-<!-- Bottom Card: Destination -->
-<div class="row justify-content-center mb-4">
-  <div class="col-auto">
-    <div class="card shadow-sm bg-light text-dark text-center p-2">
-      <h2>{{ cards.6.position }}</h2>
-      <img class="img-fluid" src="{{ MEDIA_URL }}{{ cards.6.image }}" 
-           {% if cards.6.reversed %}style="transform:rotate(180deg); max-width:200px"{% else %}style="max-width:200px;"{% endif %}>
-      <p class="card-text">
-        {% if not cards.6.reversed %}{{ cards.6.meaning_up }}{% else %}{{ cards.6.meaning_rev }}{% endif %}
-      </p>
-    </div>
+  <div class="card shadow-sm bg-light text-dark tarot-card p-3" id="traveler-card">
+    <h4>{{ cards.0.position }}</h4>
+    <img class="tarot-img {% if cards.0.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.0.image }}">
+    <p>{% if not cards.0.reversed %}{{ cards.0.meaning_up }}{% else %}{{ cards.0.meaning_rev }}{% endif %}</p>
+  </div>
+
+  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
+    <h4>{{ cards.5.position }}</h4>
+    <img class="tarot-img {% if cards.5.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.5.image }}">
+    <p>{% if not cards.5.reversed %}{{ cards.5.meaning_up }}{% else %}{{ cards.5.meaning_rev }}{% endif %}</p>
   </div>
 </div>
 
-<!-- Full-width Interpretation -->
+<!-- Row 2a: Destination (overlay on Traveler) -->
+<div class="destination-wrapper" >
+  <div class="card shadow-sm bg-light text-dark tarot-card destination-card p-3">
+    <h4>{{ cards.6.position }}</h4>
+    <img class="tarot-img {% if cards.6.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.6.image }}">
+    <p>{% if not cards.6.reversed %}{{ cards.6.meaning_up }}{% else %}{{ cards.6.meaning_rev }}{% endif %}</p>
+  </div>
+</div>
+
+<!-- Row 3: What's Missing -->
+<div class="tarot-row" style="margin-top: -180px;">
+    <div class="card shadow-sm bg-light text-dark tarot-card p-3">
+      <h4>{{ cards.1.position }}</h4>
+      <img class="tarot-img {% if cards.1.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.1.image }}">
+      <p>{% if not cards.1.reversed %}{{ cards.1.meaning_up }}{% else %}{{ cards.1.meaning_rev }}{% endif %}</p>
+    </div>
+  </div>
+
+
+<!-- Interpretation -->
 <div class="row mt-4">
   <div class="col-12">
-    <div class="card shadow-sm bg-light text-dark p-3">
-      <h3>Interpretation</h3>
-      <p>{{ interpretation }}</p>
+    <div class="card shadow-sm bg-light text-dark p-4">
+      <h3 class="text-center">Interpretation</h3>
+      <p class="text-center">{{ interpretation }}</p>
     </div>
   </div>
 </div>

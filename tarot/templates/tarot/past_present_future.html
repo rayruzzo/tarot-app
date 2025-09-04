@@ -16,17 +16,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<div class="row g-4 justify-content-center">
 
   {% for card in cards %}
-  <div class="col d-flex justify-content-center">
-    <div class="card shadow-sm bg-light text-dark" style="width: 100%; max-width: 220px;">
-      <h1 class="text-center">{{ card.position }}</h1>
-      <img class="img-fluid d-block mx-auto" src="{{ MEDIA_URL }}{{ card.image }}"
-           {% if card.reversed %}style="transform:rotate(180deg); max-width: 200px;"{% else %}style="max-width: 200px;"{% endif %}>
-      <div class="card-body">
-        <h2 class="text-center">{{ card.name }}</h2>
-        {% if card.reversed %}<h3 class="text-center">Reversed</h3>{% endif %}
+  <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+    <div class="card shadow-sm bg-light text-dark w-100" style="max-width: 90%;">
+      <h3 class="text-center mt-2">{{ card.position }}</h3>
+      <img class="img-fluid d-block mx-auto"
+           src="{{ MEDIA_URL }}{{ card.image }}"
+           style="width: 70%; height: auto;"
+           {% if card.reversed %}style="transform: rotate(180deg); width: 70%; height: auto;"{% endif %}>
+        <div class="card-body">
+        <h4 class="text-center">{{ card.name }}</h4>
+        {% if card.reversed %}<h6 class="text-center">Reversed</h6>{% endif %}
         <p class="card-text">
           {% if not card.reversed %}{{ card.meaning_up }}{% else %}{{ card.meaning_rev }}{% endif %}
         </p>
@@ -34,9 +36,8 @@
     </div>
   </div>
   {% endfor %}
-  
-
 </div>
+
 
 <!-- Full-width Interpretation -->
 <div class="row mt-4">
