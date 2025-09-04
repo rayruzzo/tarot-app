@@ -16,7 +16,7 @@
 {% endblock %}
 {% block content %}
 <div class="container mt-5 center" style="width:75%">
-<form action="{% url 'reading' %}" method="POST">
+<form action="{% url 'reading_router' %}" method="POST">
     {% csrf_token %}
     {{ form.as_div }}
 <div class="btn"><input type="submit" value="What do the cards have to say?"></div>

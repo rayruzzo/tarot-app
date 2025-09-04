@@ -22,7 +22,9 @@ from tarot import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home,name='home'),
-    path('past_present_future/', views.past_present_future, name='reading'),
+    path('past_present_future/', views.past_present_future, name='past_present_future'),
+    path("lilias_safe_passage/", views.lilias_safe_passage, name="lilias_safe_passage"),
+    path("route_reading", views.reading_router, name="reading_router"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

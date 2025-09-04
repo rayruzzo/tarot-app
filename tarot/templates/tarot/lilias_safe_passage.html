@@ -1,0 +1,78 @@
+{% extends 'tarot/base.html' %}
+
+{% block head %}
+<title>Lilia's Safe Passage</title>
+{% endblock %}
+
+{% block header %}
+<section class="pt-3 pb-1 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <h1 class="fw-light">{{ name }}'s Safe Passage Reading</h1>
+      <p class="lead text-muted">{{ question }}</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+
+<!-- Top Card: Traveler -->
+<div class="row justify-content-center mb-4">
+  <div class="col-auto">
+    <div class="card shadow-sm bg-light text-dark text-center p-2">
+      <h2>{{ cards.0.position }}</h2>
+      <img class="img-fluid" src="{{ MEDIA_URL }}{{ cards.0.image }}" 
+           {% if cards.0.reversed %}style="transform:rotate(180deg); max-width:200px"{% else %}style="max-width:200px;"{% endif %}>
+      <p class="card-text">
+        {% if not cards.0.reversed %}{{ cards.0.meaning_up }}{% else %}{{ cards.0.meaning_rev }}{% endif %}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Middle 5 cards forming the pentagram (positions 2-6) -->
+<div class="row justify-content-center mb-4 g-3">
+  {% for card in cards|slice:"1:6" %}
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+    <div class="card shadow-sm bg-light text-dark text-center p-2">
+      <h4>{{ card.position }}</h4>
+      <img class="img-fluid" src="{{ MEDIA_URL }}{{ card.image }}" 
+           {% if card.reversed %}style="transform:rotate(180deg); max-width:150px"{% else %}style="max-width:150px;"{% endif %}>
+      <p class="card-text">
+        {% if not card.reversed %}{{ card.meaning_up }}{% else %}{{ card.meaning_rev }}{% endif %}
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Bottom Card: Destination -->
+<div class="row justify-content-center mb-4">
+  <div class="col-auto">
+    <div class="card shadow-sm bg-light text-dark text-center p-2">
+      <h2>{{ cards.6.position }}</h2>
+      <img class="img-fluid" src="{{ MEDIA_URL }}{{ cards.6.image }}" 
+           {% if cards.6.reversed %}style="transform:rotate(180deg); max-width:200px"{% else %}style="max-width:200px;"{% endif %}>
+      <p class="card-text">
+        {% if not cards.6.reversed %}{{ cards.6.meaning_up }}{% else %}{{ cards.6.meaning_rev }}{% endif %}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Full-width Interpretation -->
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card shadow-sm bg-light text-dark p-3">
+      <h3>Interpretation</h3>
+      <p>{{ interpretation }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3 text-center">
+  <a href="{% url 'home' %}" class="btn btn-secondary">Try another reading</a>
+</div>
+
+{% endblock %}
