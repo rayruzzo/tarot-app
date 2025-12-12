@@ -1,0 +1,1 @@
+TAROT_API_URL = "https://tarot-api-3hv5.onrender.com/"
