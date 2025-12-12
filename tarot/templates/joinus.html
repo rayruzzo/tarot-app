@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Welcome to Wayfindr</h1>
+  <p>Wayfindr is a tarot reading and journaling app that helps you navigate life's journey with guidance from the tarot cards.</p>
+  <p>Sign up for an account to start your tarot reading and journaling journey today!</p>
+<div class="signup-container">
+    <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+    <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+</div>
+{% endblock %}

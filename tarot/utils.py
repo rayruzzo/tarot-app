@@ -1,9 +1,11 @@
 
-import random
-import requests
 import openai
 from django.conf import settings
 from .llm.system_prompts import interpreter_prompt
+from functools import wraps
+from django.core.exceptions import ValidationError
+from .models import UserPassword
+
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -11,6 +13,20 @@ TEMPLATE_DISPATCH = {
     "past_present_future": "tarot/past_present_future.html",
     "safe_passage": "tarot/lilias_safe_passage.html",
 }
+
+
+def handle_errors(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except UserPassword.DoesNotExist:
+            return "User not found"
+        except ValidationError as e:
+            return f"Validation error: {str(e)}"
+        except Exception as e:
+            return f"Error: {str(e)}"
+    return wrapper
 
 
 def generate_interpretation(cards, name, question):

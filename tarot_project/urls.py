@@ -19,7 +19,7 @@ from django.conf import settings
 from django.urls import path
 from django.conf.urls.static import static
 from django.urls import path
-from tarot.views import NewReadingView, ReadingView
+from tarot.views import NewReadingView, ReadingView, LoginView, SignUpView, HomeView, LogoutView
 import uuid
 
 def dev_session_user(view_func):
@@ -30,7 +30,11 @@ def dev_session_user(view_func):
     return _wrapped_view
 
 urlpatterns = [
-    path('', dev_session_user(lambda request: render(request, 'base.html')), name='home'),
+    path('', HomeView.as_view(), name='home'),
+    path('joinus/', lambda request: render(request, 'joinus.html'), name='joinus'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('signup/', SignUpView.as_view(), name='signup'),
     path('readings/new/', dev_session_user(NewReadingView.as_view()), name='new_reading'),
     path('readings/<int:reading_id>/', dev_session_user(ReadingView.as_view()), name='reading'),
 ]

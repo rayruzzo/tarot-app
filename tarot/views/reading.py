@@ -1,4 +1,6 @@
 from rest_framework.decorators import APIView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render
@@ -6,6 +8,7 @@ from ..forms import readingForm
 from ..data.tarot import createReading, getReadingById, deleteReading
 from ..utils import TEMPLATE_DISPATCH
 
+@method_decorator(login_required, name='dispatch')
 class NewReadingView(APIView):
     def get(self, request):
         form = readingForm()
@@ -25,6 +28,7 @@ class NewReadingView(APIView):
         else:
             return Response({'error': 'Invalid form data'}, status=status.HTTP_400_BAD_REQUEST)
 
+@method_decorator(login_required, name='dispatch')
 class ReadingView(APIView):
     def get(self, request, reading_id):
         try:
@@ -35,7 +39,6 @@ class ReadingView(APIView):
                 return Response({'error': 'Reading not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
     def delete(self, request, reading_id):
         try:
             deleteReading(reading_id)
