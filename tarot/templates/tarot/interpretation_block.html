@@ -1,0 +1,16 @@
+{% load static %}
+<div class="interpretation-block">
+{% if reading.interpretation %}
+        <h3>Interpretation:</h3>
+        <p>{{ reading.interpretation }}</p>
+    </div>
+{% else %}
+    <button class="get-interpretation-btn">
+        Get Interpretation
+    </button>
+    <div class="interpretation-result"></div>
+{% endif %}
+</div>
+
+<script id="reading-data" type="application/json">{{ reading_json|safe }}</script>
+<script src="{% static 'js/interpretCall.js' %}"></script>

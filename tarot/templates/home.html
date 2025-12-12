@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{%block title%}Home{%endblock%}
+
+{% block content %}
+    <h2>Welcome, {{ user_name }}</h2>
+    <p>This will be filled out later</p>
+
+    
+    {% if readings %}
+    <div class="user-readings">
+        <h3>Your Readings</h3>
+        {% for reading in readings %}
+            <div class="reading">
+                <h4>{{ reading.title }}</h4>
+                <a href="/readings/{{ reading.id }}">View Details</a>
+            </div>
+        {% endfor %}
+
+    </div>
+    {% endif %}
+
+    <div class="user-actions">
+        <h3>Actions</h3>
+        <a href="/readings/new/">Get a New Reading</a>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tarot Reading{% endblock %}
+
+{%block header%}
+<div class="reading-header">
+    <h1>Get Your Tarot Reading.</h1>
+    <p class="lead">
+        Take a moment and let us know a little bit about whats on your mind. 
+    </p>
+  </div>
+{% endblock %}
+{% block content %}
+<div class="reading-form">
+<form action="{% url 'new_reading' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_div }}
+<div class="btn"><input type="submit" value="What do the cards have to say?"></div>
+</form>
+</div>
+{% endblock %}

@@ -1,21 +1,28 @@
 
-import random
-import requests
 import openai
 from django.conf import settings
-from .system_prompts import interpreter_prompt
+from .llm.system_prompts import interpreter_prompt
+from functools import wraps
+from django.core.exceptions import ValidationError
+from .models import UserPassword
+
 
 openai.api_key = settings.OPENAI_API_KEY
-TAROT_API_URL = "https://tarot-api-3hv5.onrender.com/"
 
-def get_tarot_cards(n):
-    """Fetch n random tarot cards from the API and add reversed + image info."""
-    response = requests.get(TAROT_API_URL + "api/v1/cards/random?n={n}".format(n=n))
-    data = response.json()["cards"]
-    for card in data:
-        card["reversed"] = bool(random.getrandbits(1))
-        card["image"] = f"/media/tarot/cards/{card['name'].replace(' ', '_')}.jpg"
-    return data
+
+
+def handle_errors(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except UserPassword.DoesNotExist:
+            return "User not found"
+        except ValidationError as e:
+            return f"Validation error: {str(e)}"
+        except Exception as e:
+            return f"Error: {str(e)}"
+    return wrapper
 
 
 def generate_interpretation(cards, name, question):
