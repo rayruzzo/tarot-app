@@ -61,6 +61,7 @@ class Reading(Document):
     readingType = EnumField(ReadingType, required=True)
     cards = GenericReferenceField(required=True)
     reversals = ListField(required=True)
+    interpretation = StringField(required=False, default="")
     meta = {'collection': 'readings'}
     def __str__(self):
         cardString = self.cards.__str__()

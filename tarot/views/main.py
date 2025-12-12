@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render, redirect
 from ..forms import loginForm, signUpForm
-from ..data.users import create_user, check_password, get_user_by_email
+from ..data.users import create_user, get_user_by_email, validate_password
 
 class LoginView(APIView):
     def get(self, request):
@@ -17,7 +17,6 @@ class LoginView(APIView):
             user_result = get_user_by_email(email)
             user = user_result.get('user') if user_result and 'user' in user_result else None
             if user:
-                from ..data.users import validate_password
                 if validate_password(str(user.id), password):
                     request.session['user_id'] = str(user.id)
                     request.session['user_email'] = user.email
