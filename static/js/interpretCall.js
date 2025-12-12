@@ -16,17 +16,13 @@ function getCookie(name) {
 
 // Attach event listener to all 'Get Interpretation' buttons
 document.addEventListener('DOMContentLoaded', function() {
+
+    const readingData = JSON.parse(document.getElementById('reading-data').textContent);
+
 	const btn = document.querySelector('.get-interpretation-btn');
 	if (!btn) return;
 	btn.addEventListener('click', function() {
-		const readingData = btn.dataset.reading; // Should be a JSON string
-		let reading;
-		try {
-			reading = JSON.parse(readingData);
-		} catch (e) {
-			alert('Invalid reading data');
-			return;
-		}
+		console.log('[interpretCall.js] Using readingData:', readingData);
 		btn.disabled = true;
 		btn.textContent = 'Loading...';
 		fetch('/api/interpret/', {
@@ -35,10 +31,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				'Content-Type': 'application/json',
 				'X-CSRFToken': getCookie('csrftoken'),
 			},
-			body: JSON.stringify({ reading: reading })
+			body: JSON.stringify({ reading: readingData })
 		})
-		.then(response => response.json())
+		.then(response => {
+			console.log('[interpretCall.js] Fetch response:', response);
+			return response.json();
+		})
 		.then(data => {
+			console.log('[interpretCall.js] Response data:', data);
 			const target = document.querySelector('.interpretation-result');
 			if (data.interpretation) {
 				if (target) {
@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		.catch(err => {
 			alert('Error: ' + err);
+			console.error('[interpretCall.js] Fetch error:', err);
 		})
 		.finally(() => {
 			btn.disabled = false;

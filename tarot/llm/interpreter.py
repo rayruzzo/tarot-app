@@ -4,16 +4,18 @@ from ..utils import handle_errors
 
 @handle_errors
 def create_interpretation_prompt(reading_id): 
+    print(f"[create_interpretation_prompt] reading_id: {reading_id}")
     new_interpretation = AIPrompt(
-        reading_id=reading_id,
-        system_prompt=interpreter_prompt,
+        readingId=reading_id,
+        systemPrompt=interpreter_prompt,
     )
     new_interpretation.save()
+    print(f"[create_interpretation_prompt] Created and saved AIPrompt: {new_interpretation}")
     return new_interpretation
 
 @handle_errors
 def get_prompt(reading_id):
-    prompt = AIPrompt.objects.get(reading_id=reading_id)
+    prompt = AIPrompt.objects.get(readingId=reading_id)
     return prompt
 
 @handle_errors

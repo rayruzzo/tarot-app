@@ -1,23 +1,14 @@
-{% extends 'base.html' %}
-{% load static %}
-{% include "tarot/interpretation_block.html" %}
 
-{% block head %}
-<title>Your tarot reading</title>
-{% endblock %}
+{% block reading %}
+<div class="tarot-reading-spread">
+<h2>Past, Present, Future Spread</h2>
+</div>
 
-{% block header %}
-<section class="reading-header">
-  <h1>Past, Present, Future Reading</h1>
-  <div class="question-text">{{ reading.question }}</div>
-</section>
-{% endblock %}
-
-{% block content %}
+<div class="tarot-reading-container">
   <!-- Past -->
     <div class="tarot-row">
       <div class="tarot-card-wrapper">
-        <h2>Past</h2>
+        <h3>Past</h3>
         {% if reading.reversals.0 %}
           <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.past.img }}">
           <p class="reversed-text">Reversed: {{ reading.cards.past.meaning_rev }}</p>
@@ -29,7 +20,7 @@
       </div>
   <!-- Present -->
       <div class="tarot-card-wrapper">
-        <h2>Present</h2>
+        <h3>Present</h3>
         {% if reading.reversals.1 %}
           <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.present.img }}">
           <p class="reversed-text">Reversed: {{ reading.cards.present.meaning_rev }}</p>
@@ -41,7 +32,7 @@
       </div>
   <!-- Future -->
       <div class="tarot-card-wrapper">
-        <h2>Future</h2>
+        <h3>Future</h3>
         {% if reading.reversals.2 %}
           <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.future.img }}">
           <p class="reversed-text">Reversed: {{ reading.cards.future.meaning_rev }}</p>
@@ -53,10 +44,4 @@
       </div>
     </div>
 </div>
-
-<!-- Interpretation-->
- {% block interpretation %}
-    {% include "tarot/interpretation_block.html" %}
-{% endblock %}
-
 {% endblock %}

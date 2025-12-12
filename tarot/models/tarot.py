@@ -17,6 +17,7 @@ class TarotCard(Document):
         return self.name + ": " + self.meaning_up + " / " + self.meaning_rev
 
     def to_dict(self):
+        # Only return direct fields, no references
         return {
             "type": self.type,
             "name_short": self.name_short,
@@ -48,10 +49,11 @@ class PPFReading(Document):
         return past + " / " + present + " / " + future
     
     def to_dict(self):
+        # Only serialize referenced TarotCard fields, not the whole reading
         return {
-            "past": self.past.to_dict(),
-            "present": self.present.to_dict(),
-            "future": self.future.to_dict()
+            "past": self.past.to_dict() if self.past else None,
+            "present": self.present.to_dict() if self.present else None,
+            "future": self.future.to_dict() if self.future else None
         }
     
 class LiliaReading(Document):
@@ -75,14 +77,15 @@ class LiliaReading(Document):
         return traveler + " / " + what_is_missing + " / " + path_behind + " / " + path_ahead + " / " + obstacles + " / " + windfall + " / " + destination
 
     def to_dict(self):
+        # Only serialize referenced TarotCard fields, not the whole reading
         return {
-            "traveler": self.traveler.to_dict(),
-            "what_is_missing": self.what_is_missing.to_dict(),
-            "path_behind": self.path_behind.to_dict(),
-            "path_ahead": self.path_ahead.to_dict(),
-            "obstacles": self.obstacles.to_dict(),
-            "windfall": self.windfall.to_dict(),
-            "destination": self.destination.to_dict()
+            "traveler": self.traveler.to_dict() if self.traveler else None,
+            "what_is_missing": self.what_is_missing.to_dict() if self.what_is_missing else None,
+            "path_behind": self.path_behind.to_dict() if self.path_behind else None,
+            "path_ahead": self.path_ahead.to_dict() if self.path_ahead else None,
+            "obstacles": self.obstacles.to_dict() if self.obstacles else None,
+            "windfall": self.windfall.to_dict() if self.windfall else None,
+            "destination": self.destination.to_dict() if self.destination else None
         }
 
 class Reading(Document):
@@ -98,12 +101,14 @@ class Reading(Document):
         return self.user + " - " + self.question + " - " + cardString
     
     def to_dict(self):
+        # Only serialize direct fields and the cards as a dict (no recursion)
         return {
+            "_id": str(self.id),
             "id": str(self.id),
             "user": self.user,
             "question": self.question,
             "readingType": self.readingType.name,
-            "cards": self.cards.to_dict(),
+            "cards": self.cards.to_dict() if hasattr(self.cards, 'to_dict') else None,
             "reversals": self.reversals,
             "interpretation": self.interpretation
         }

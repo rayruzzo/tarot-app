@@ -76,8 +76,7 @@ def createReading(userId, question, readingType) -> Reading | None:
         reading.cards = readingInstance
         reading.reversals = reversals
         reading.save()
-
-        print(f"[createReading] Successfully created reading with id: {reading.id}")
+        
         return reading
     except Exception as e:
         print(f"[createReading] Error creating reading: {e}")

@@ -1,8 +1,0 @@
-{% load static %}
-<script src="{% static 'js/interpretCall.js' %}"></script>
-<div class="interpretation-block">
-    <button class="get-interpretation-btn" data-reading='{{ reading|safe|json_script:"reading-data-" }}'>
-        Get Interpretation
-    </button>
-    <div id="interpretation-{{ reading._id }}"></div>
-</div>

@@ -1,15 +1,18 @@
+import json
+
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
 from django.shortcuts import render, redirect
+
 from ..forms import readingForm
 from ..data.tarot import createReading, getReadingById, deleteReading
-from ..utils import TEMPLATE_DISPATCH
 
 class NewReadingView(APIView):
     def get(self, request):
         form = readingForm()
-        return render(request, 'tarot/reading.html', {'form': form})
+        return render(request, 'tarot/new_reading.html', {'form': form})
     
     def post(self, request):
         form = readingForm(request.POST)
@@ -33,15 +36,25 @@ class NewReadingView(APIView):
         else:
             return Response({'error': 'Invalid form data'}, status=status.HTTP_400_BAD_REQUEST)
 
+LAYOUT_MAP = {
+    "LILIA": "tarot/layouts/lilias_safe_passage.html",
+    "PPF": "tarot/layouts/past_present_future.html",
+}
+
 class ReadingView(APIView):
     def get(self, request, reading_id):
         try:
             reading = getReadingById(reading_id)
             if reading:
-                reading_dict = reading.to_dict() if hasattr(reading, 'to_dict') else reading
-                print(reading_dict)  # Print the reading dictionary for debugging purposes
+                reading_dict = reading.to_dict()
                 template_key = reading_dict['readingType']
-                return render(request, TEMPLATE_DISPATCH[template_key], {'reading': reading_dict})
+                print(template_key)
+                reading_json = json.dumps(reading_dict)
+                return render(request, 'tarot/reading_template.html', {
+                    'reading': reading_dict, 
+                    'reading_json': reading_json,
+                    'layout_template': LAYOUT_MAP[template_key]
+                })
             else:
                 return Response({'error': 'Reading not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:

@@ -9,10 +9,6 @@ from .models import UserPassword
 
 openai.api_key = settings.OPENAI_API_KEY
 
-TEMPLATE_DISPATCH = {
-    "PPF": "tarot/past_present_future.html",
-    "LILIA": "tarot/lilias_safe_passage.html",
-}
 
 
 def handle_errors(func):

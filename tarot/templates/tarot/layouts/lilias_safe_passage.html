@@ -1,21 +1,13 @@
-{% extends 'base.html' %}
-{% include "tarot/interpretation_block.html" %}
+{% block reading %}
+<div class="tarot-reading-spread">
+<h2>Lilia's Safe Passage Spread</h2>
+</div>
 
-{% block title %}Lilia's Safe Passage Reading{% endblock %}
-
-{% block header %}
-<section class="reading-header">
-  <h1>Lilia's Safe Passage Reading</h1>
-  <div class="question-text">{{ reading.question }}</div>
-</section>
-{% endblock %}
-
-{% block content %}
-
+<div class="tarot-reading-container">
 <!-- Row 1: Path Behind, Path Ahead -->
 <div class="tarot-row">
   <div class="tarot-card-wrapper">
-    <h2>Path Behind</h2>
+    <h3>Path Behind</h3>
     {% if reading.reversals.2 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.path_behind.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.path_behind.meaning_rev }}</p>
@@ -25,7 +17,7 @@
     {% endif %}
   </div>
   <div class="tarot-card-wrapper">
-    <h2>Path Ahead</h2>
+    <h3>Path Ahead</h3>
     {% if reading.reversals.3 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.path_ahead.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.path_ahead.meaning_rev }}</p>
@@ -39,7 +31,7 @@
 <!-- Row 2: Obstacles, Traveler, Windfall -->
 <div class="tarot-row">
   <div class="tarot-card-wrapper">
-    <h2>Obstacles</h2>
+    <h3>Obstacles</h3>
     {% if reading.reversals.4 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.obstacles.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.obstacles.meaning_rev }}</p>
@@ -49,7 +41,7 @@
     {% endif %}
   </div>
   <div class="tarot-card-wrapper" id="traveler-card">
-    <h2>Traveler</h2>
+    <h3>Traveler</h3>
     {% if reading.reversals.0 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.traveler.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.traveler.meaning_rev }}</p>
@@ -59,7 +51,7 @@
     {% endif %}
   </div>
   <div class="tarot-card-wrapper">
-    <h2>Windfall</h2>
+    <h3>Windfall</h3>
     {% if reading.reversals.5 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.windfall.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.windfall.meaning_rev }}</p>
@@ -73,7 +65,7 @@
 <!-- Row 2a: Destination (overlay on Traveler) -->
 <div class="destination-wrapper">
   <div class="tarot-card-wrapper destination-card">
-    <h2>Destination</h2>
+    <h3>Destination</h3>
     {% if reading.reversals.6 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.destination.meaning_rev }}</p>
@@ -88,7 +80,7 @@
 <!-- Row 3: What's Missing -->
 <div class="tarot-row" style="margin-top: -180px;">
   <div class="tarot-card-wrapper">
-    <h2>What's Missing</h2>
+    <h3>What's Missing</h3>
     {% if reading.reversals.1 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.what_is_missing.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.what_is_missing.meaning_rev }}</p>
@@ -98,10 +90,7 @@
     {% endif %}
   </div>
 </div>
-
-<!-- Interpretation-->
- {% block interpretation %}
-    {% include "tarot/interpretation_block.html" %}
-{% endblock %}
-
+</div>
+</div>
+</div>
 {% endblock %}
