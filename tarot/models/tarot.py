@@ -101,14 +101,13 @@ class Reading(Document):
         return self.user + " - " + self.question + " - " + cardString
     
     def to_dict(self):
-        # Only serialize direct fields and the cards as a dict (no recursion)
         return {
             "_id": str(self.id),
             "id": str(self.id),
             "user": self.user,
             "question": self.question,
             "readingType": self.readingType.name,
-            "cards": self.cards.to_dict() if hasattr(self.cards, 'to_dict') else None,
+            "cards": self.cards.to_dict(),
             "reversals": self.reversals,
             "interpretation": self.interpretation
         }
