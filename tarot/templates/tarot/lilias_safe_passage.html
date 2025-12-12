@@ -1,57 +1,11 @@
 {% extends 'tarot/base.html' %}
 
-{% block head %}
-<title>Lilia's Safe Passage</title>
-<style>
-  .tarot-row {
-    margin-bottom: 1rem;
-    gap: 1.5rem;           
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .tarot-card {
-    flex: 1 1 220px;     
-    max-width: 260px;    
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-    text-align: center;
-    margin: 0 auto;
-  }
-  .tarot-img {
-    width: 85%;
-    height: auto;
-    display: block;
-    margin: 0 auto 0.5rem auto;
-  }
-  .tarot-img.reversed {
-    transform: rotate(180deg);
-  }
-
-  /* Destination overlay */
-  .destination-wrapper {
-    position: relative;
-    top: -180px; /* pull upward to overlap Traveler */
-    z-index: 3;
-    display: flex;
-    justify-content: center;
-  }
-  .destination-card {
-    transform: rotate(90deg);
-    max-width: 220px;
-  }
-</style>
-{% endblock %}
+{% block title %}Lilia's Safe Passage Reading{% endblock %}
 
 {% block header %}
-<section class="pt-3 pb-1 text-center container">
-  <div class="row py-lg-5">
-    <div class="col-lg-8 col-md-10 mx-auto">
-      <h1 class="fw-light">{{ name }}'s Safe Passage Reading</h1>
-      <p class="lead text-muted">{{ question }}</p>
-    </div>
-  </div>
+<section class="reading-header">
+  <h1>Lilia's Safe Passage Reading</h1>
+  <div class="question-text">{{ reading.question }}</div>
 </section>
 {% endblock %}
 
@@ -59,71 +13,91 @@
 
 <!-- Row 1: Path Behind, Path Ahead -->
 <div class="tarot-row">
-  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
-    <h4>{{ cards.2.position }}</h4>
-    <img class="tarot-img {% if cards.2.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.2.image }}">
-    <p>{% if not cards.2.reversed %}{{ cards.2.meaning_up }}{% else %}{{ cards.2.meaning_rev }}{% endif %}</p>
+  <div class="tarot-card-wrapper">
+    <h2>Path Behind</h2>
+    {% if reading.reversals.2 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.path_behind.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.path_behind.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.path_behind.img }}">
+      <p class="upright-text">{{ reading.cards.path_behind.meaning_up }}</p>
+    {% endif %}
   </div>
-
-  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
-    <h4>{{ cards.3.position }}</h4>
-    <img class="tarot-img {% if cards.3.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.3.image }}">
-    <p>{% if not cards.3.reversed %}{{ cards.3.meaning_up }}{% else %}{{ cards.3.meaning_rev }}{% endif %}</p>
+  <div class="tarot-card-wrapper">
+    <h2>Path Ahead</h2>
+    {% if reading.reversals.3 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.path_ahead.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.path_ahead.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.path_ahead.img }}">
+      <p class="upright-text">{{ reading.cards.path_ahead.meaning_up }}</p>
+    {% endif %}
   </div>
 </div>
 
 <!-- Row 2: Obstacles, Traveler, Windfall -->
 <div class="tarot-row">
-  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
-    <h4>{{ cards.4.position }}</h4>
-    <img class="tarot-img {% if cards.4.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.4.image }}">
-    <p>{% if not cards.4.reversed %}{{ cards.4.meaning_up }}{% else %}{{ cards.4.meaning_rev }}{% endif %}</p>
+  <div class="tarot-card-wrapper">
+    <h2>Obstacles</h2>
+    {% if reading.reversals.4 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.obstacles.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.obstacles.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.obstacles.img }}">
+      <p class="upright-text">{{ reading.cards.obstacles.meaning_up }}</p>
+    {% endif %}
   </div>
-
-  <div class="card shadow-sm bg-light text-dark tarot-card p-3" id="traveler-card">
-    <h4>{{ cards.0.position }}</h4>
-    <img class="tarot-img {% if cards.0.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.0.image }}">
-    <p>{% if not cards.0.reversed %}{{ cards.0.meaning_up }}{% else %}{{ cards.0.meaning_rev }}{% endif %}</p>
+  <div class="tarot-card-wrapper" id="traveler-card">
+    <h2>Traveler</h2>
+    {% if reading.reversals.0 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.traveler.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.traveler.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.traveler.img }}">
+      <p class="upright-text">{{ reading.cards.traveler.meaning_up }}</p>
+    {% endif %}
   </div>
-
-  <div class="card shadow-sm bg-light text-dark tarot-card p-3">
-    <h4>{{ cards.5.position }}</h4>
-    <img class="tarot-img {% if cards.5.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.5.image }}">
-    <p>{% if not cards.5.reversed %}{{ cards.5.meaning_up }}{% else %}{{ cards.5.meaning_rev }}{% endif %}</p>
+  <div class="tarot-card-wrapper">
+    <h2>Windfall</h2>
+    {% if reading.reversals.5 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.windfall.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.windfall.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.windfall.img }}">
+      <p class="upright-text">{{ reading.cards.windfall.meaning_up }}</p>
+    {% endif %}
   </div>
 </div>
 
 <!-- Row 2a: Destination (overlay on Traveler) -->
-<div class="destination-wrapper" >
-  <div class="card shadow-sm bg-light text-dark tarot-card destination-card p-3">
-    <h4>{{ cards.6.position }}</h4>
-    <img class="tarot-img {% if cards.6.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.6.image }}">
-    <p>{% if not cards.6.reversed %}{{ cards.6.meaning_up }}{% else %}{{ cards.6.meaning_rev }}{% endif %}</p>
+<div class="destination-wrapper">
+  <div class="tarot-card-wrapper destination-card">
+    <h2>Destination</h2>
+    {% if reading.reversals.6 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.destination.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
+      <p class="upright-text">{{ reading.cards.destination.meaning_up }}</p>
+    {% endif %}
   </div>
 </div>
+
 
 <!-- Row 3: What's Missing -->
 <div class="tarot-row" style="margin-top: -180px;">
-    <div class="card shadow-sm bg-light text-dark tarot-card p-3">
-      <h4>{{ cards.1.position }}</h4>
-      <img class="tarot-img {% if cards.1.reversed %}reversed{% endif %}" src="{{ MEDIA_URL }}{{ cards.1.image }}">
-      <p>{% if not cards.1.reversed %}{{ cards.1.meaning_up }}{% else %}{{ cards.1.meaning_rev }}{% endif %}</p>
-    </div>
-  </div>
-
-
-<!-- Interpretation -->
-<div class="row mt-4">
-  <div class="col-12">
-    <div class="card shadow-sm bg-light text-dark p-4">
-      <h3 class="text-center">Interpretation</h3>
-      <p class="text-center">{{ interpretation }}</p>
-    </div>
+  <div class="tarot-card-wrapper">
+    <h2>What's Missing</h2>
+    {% if reading.reversals.1 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.what_is_missing.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.what_is_missing.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.what_is_missing.img }}">
+      <p class="upright-text">{{ reading.cards.what_is_missing.meaning_up }}</p>
+    {% endif %}
   </div>
 </div>
 
-<div class="container mt-3 text-center">
-  <a href="{% url 'home' %}" class="btn btn-secondary">Try another reading</a>
-</div>
+<!-- Reading Summary -->
 
 {% endblock %}

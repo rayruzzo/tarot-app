@@ -1,5 +1,5 @@
 from enum import Enum
-from mongoengine import Document, StringField, EnumField, ListField, IntField, GenericReferenceField
+from mongoengine import Document, StringField, EnumField, ListField, IntField, GenericReferenceField, ReferenceField
 
 class TarotCard(Document):
     type = StringField(required=True)
@@ -23,9 +23,9 @@ class ReadingType(Enum):
 
 class PPFReading(Document):
     cards = IntField(required=True, default=3)
-    past = TarotCard(required=True)
-    present = TarotCard(required=True)
-    future = TarotCard(required=True)
+    past = ReferenceField(TarotCard, required=True)
+    present = ReferenceField(TarotCard, required=True)
+    future = ReferenceField(TarotCard, required=True)
     meta = {'collection': 'ppf_readings'}
 
     def __str__(self):
@@ -36,13 +36,13 @@ class PPFReading(Document):
     
 class LiliaReading(Document):
     cards = IntField(required=True, default=7)
-    traveler = TarotCard(required=True)
-    what_is_missing = TarotCard(required=True)
-    path_behind = TarotCard(required=True)
-    path_ahead = TarotCard(required=True)
-    obstacles = TarotCard(required=True)
-    windfall = TarotCard(required=True)
-    destination = TarotCard(required=True)
+    traveler = ReferenceField(TarotCard, required=True)
+    what_is_missing = ReferenceField(TarotCard, required=True)
+    path_behind = ReferenceField(TarotCard, required=True)
+    path_ahead = ReferenceField(TarotCard, required=True)
+    obstacles = ReferenceField(TarotCard, required=True)
+    windfall = ReferenceField(TarotCard, required=True)
+    destination = ReferenceField(TarotCard, required=True)
     meta = {'collection': 'lilia_readings'}
     def __str__(self):
         traveler = "Traveler: " + str(self.traveler.name)

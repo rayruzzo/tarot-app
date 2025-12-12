@@ -1,6 +1,11 @@
 from django.utils.deprecation import MiddlewareMixin
 from django.http import JsonResponse
+import uuid
 
+class DevSessionMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        if 'dev_session_id' not in request.session:
+            request.session['dev_session_id'] = str(uuid.uuid4())
 
 class EnsureUserIdMiddleware(MiddlewareMixin):
     def process_request(self, request):

@@ -5,10 +5,12 @@
         <title>{% block pagetitle %}{% endblock %} | Wayfindr</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/background.css' %}">
     </head>
 
-    <body class="text-center text-bg-dark"; background-image="{% static 'background.png' %})">
+    <body>
         <header>
+            <h1>Wayfindr</h1>
             {% block header %}
             {% endblock %}
         </header>
@@ -20,6 +22,5 @@
     </body>
 
     <footer>
-        <script src="{% static 'js/bootstrap.bundle.min.js' %}"/>
     </footer>
 </html>

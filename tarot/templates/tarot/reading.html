@@ -4,15 +4,15 @@
 {% block title %}Tarot Reading{% endblock %}
 
 {%block header%}
-<main class="px-5 mt-5">
+<div class="reading-header">
     <h1>Get Your Tarot Reading.</h1>
     <p class="lead">
         Take a moment and let us know a little bit about whats on your mind. 
     </p>
-  </main>
+  </div>
 {% endblock %}
 {% block content %}
-<div class="container mt-5 center" style="width:75%">
+<div class="reading-form">
 <form action="{% url 'reading_router' %}" method="POST">
     {% csrf_token %}
     {{ form.as_div }}

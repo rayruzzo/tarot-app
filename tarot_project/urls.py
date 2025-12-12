@@ -14,17 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import render
 from django.conf import settings
-from django.urls import path, include
+from django.urls import path
 from django.conf.urls.static import static
-from tarot import views
+from django.urls import path
+from tarot.views import NewReadingView, ReadingView
+import uuid
+
+def dev_session_user(view_func):
+    def _wrapped_view(request, *args, **kwargs):
+        if 'dev_session_id' not in request.session:
+            request.session['dev_session_id'] = str(uuid.uuid4())
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home,name='home'),
-    path('past_present_future/', views.past_present_future, name='past_present_future'),
-    path("lilias_safe_passage/", views.lilias_safe_passage, name="lilias_safe_passage"),
-    path("route_reading", views.reading_router, name="reading_router"),
+    path('', dev_session_user(lambda request: render(request, 'base.html')), name='home'),
+    path('readings/new/', dev_session_user(NewReadingView.as_view()), name='new_reading'),
+    path('readings/<int:reading_id>/', dev_session_user(ReadingView.as_view()), name='reading'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
