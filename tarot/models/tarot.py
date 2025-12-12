@@ -99,6 +99,7 @@ class Reading(Document):
     
     def to_dict(self):
         return {
+            "id": str(self.id),
             "user": self.user,
             "question": self.question,
             "readingType": self.readingType.name,

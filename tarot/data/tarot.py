@@ -96,8 +96,8 @@ def getReadingById(readingId: str) -> Reading | None:
     
 def getReadingsByUser(userId: str) -> list:
     try:
-        userId = _convertIfStringId(userId)
-        return Reading.objects(user=userId).all()
+        readings = Reading.objects(user=userId).all()
+        return list(readings)
     except ValidationError:
         return []
     
