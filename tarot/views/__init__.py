@@ -1,5 +1,6 @@
 from .reading import ReadingView, NewReadingView
 from .main import LoginView, SignUpView, LogoutView, HomeView
+from .interpret import InterpretationAPIView
 
 __all__ = [
        'ReadingView',
@@ -7,5 +8,6 @@ __all__ = [
         'LoginView',
         'SignUpView',
         'LogoutView',
-        'HomeView'
+        'HomeView',
+       'InterpretationAPIView'
         ]

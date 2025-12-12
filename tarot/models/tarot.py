@@ -6,7 +6,7 @@ class TarotCard(Document):
     name_short = StringField(required=True)
     name = StringField(required=True)
     value = StringField(required=True)
-    value_int = StringField(required=True)
+    value_int = IntField(required=True)
     meaning_up = StringField(required=True)
     meaning_rev = StringField(required=True)
     desc = StringField(required=True)
@@ -15,6 +15,19 @@ class TarotCard(Document):
 
     def __str__(self):
         return self.name + ": " + self.meaning_up + " / " + self.meaning_rev
+
+    def to_dict(self):
+        return {
+            "type": self.type,
+            "name_short": self.name_short,
+            "name": self.name,
+            "value": self.value,
+            "value_int": self.value_int,
+            "meaning_up": self.meaning_up,
+            "meaning_rev": self.meaning_rev,
+            "desc": self.desc,
+            "img": self.img
+        }
 
 class ReadingType(Enum):
     PPF = "past_present_future"
@@ -33,6 +46,13 @@ class PPFReading(Document):
         present = "Present: " + str(self.present.name)
         future = "Future: " + str(self.future.name)
         return past + " / " + present + " / " + future
+    
+    def to_dict(self):
+        return {
+            "past": self.past.to_dict(),
+            "present": self.present.to_dict(),
+            "future": self.future.to_dict()
+        }
     
 class LiliaReading(Document):
     cards = IntField(required=True, default=7)
@@ -54,6 +74,16 @@ class LiliaReading(Document):
         destination = "Destination: " + str(self.destination.name)
         return traveler + " / " + what_is_missing + " / " + path_behind + " / " + path_ahead + " / " + obstacles + " / " + windfall + " / " + destination
 
+    def to_dict(self):
+        return {
+            "traveler": self.traveler.to_dict(),
+            "what_is_missing": self.what_is_missing.to_dict(),
+            "path_behind": self.path_behind.to_dict(),
+            "path_ahead": self.path_ahead.to_dict(),
+            "obstacles": self.obstacles.to_dict(),
+            "windfall": self.windfall.to_dict(),
+            "destination": self.destination.to_dict()
+        }
 
 class Reading(Document):
     user = StringField(required=True)
@@ -66,3 +96,13 @@ class Reading(Document):
     def __str__(self):
         cardString = self.cards.__str__()
         return self.user + " - " + self.question + " - " + cardString
+    
+    def to_dict(self):
+        return {
+            "user": self.user,
+            "question": self.question,
+            "readingType": self.readingType.name,
+            "cards": self.cards.to_dict(),
+            "reversals": self.reversals,
+            "interpretation": self.interpretation
+        }

@@ -1,6 +1,8 @@
 import mongoengine
+from bson import ObjectId
 import requests
 import random
+import traceback
 
 from mongoengine.errors import ValidationError
 from ..models import Reading, LiliaReading, PPFReading, ReadingType, TarotCard
@@ -49,7 +51,6 @@ def createReading(userId, question, readingType) -> Reading | None:
     try:
         readingModel = model_dispatcher[readingType]
         num_cards = None
-        
         if hasattr(readingModel, "_fields") and "cards" in readingModel._fields:
             num_cards = readingModel._fields["cards"].default
         else:
@@ -57,44 +58,62 @@ def createReading(userId, question, readingType) -> Reading | None:
 
         # Draw the cards using the resolved number
         cards_drawn = getTarotCardsfromAPI(num_cards)
-        cards = [card['card'] for card in cards_drawn]
         reversals = [card['reversal'] for card in cards_drawn]
+        card_fields = [field for field in readingModel._fields.keys() if field not in ["cards", "meta", "id"]]
 
+        # Create a dictionary of the fields and their values for the reading instance
         readingKwargs = {
-            field: cards[i] for i, field in enumerate(readingModel._fields.keys()) if field not in ["cards", "meta" ]
+            field: cards_drawn[i]['card'] for i, field in enumerate(card_fields)
         }
+       
         # Create the reading instance
         readingInstance = readingModel(**readingKwargs).save()
 
         reading = Reading()
         reading.user = userId
         reading.question = question
-        reading.reading_type = readingType
+        reading.readingType = readingType
         reading.cards = readingInstance
         reading.reversals = reversals
         reading.save()
 
+        print(f"[createReading] Successfully created reading with id: {reading.id}")
         return reading
     except Exception as e:
-        print(f"Error creating reading: {e}")
+        print(f"[createReading] Error creating reading: {e}")
+        traceback.print_exc()
         return None
     
 def getReadingById(readingId: str) -> Reading | None:
     try:
-        return Reading.objects.get(id=readingId)
-    except (ValidationError, mongoengine.DoesNotExist):
+        readingId = _convertIfStringId(readingId)
+        reading = Reading.objects.get(id=readingId)
+        return reading
+    except (ValidationError, mongoengine.DoesNotExist) as e:
+        return None
+    except Exception as e:
         return None
     
 def getReadingsByUser(userId: str) -> list:
     try:
+        userId = _convertIfStringId(userId)
         return Reading.objects(user=userId).all()
     except ValidationError:
         return []
     
 def deleteReading(readingId: str) -> bool:
     try:
+        readingId = _convertIfStringId(readingId)
         reading = Reading.objects.get(id=readingId)
         reading.delete()
         return True
     except (ValidationError, mongoengine.DoesNotExist):
         return False
+    
+def _convertIfStringId(id) -> ObjectId:
+    if isinstance(id, str):
+        return ObjectId(id)
+    if isinstance(id, ObjectId):
+        return id
+    else:
+        raise ValueError("Invalid id type, expected str or ObjectId")

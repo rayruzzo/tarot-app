@@ -1,4 +1,6 @@
-{% extends 'tarot/base.html' %}
+{% extends 'base.html' %}
+{% load static %}
+{% include "tarot/interpretation_block.html" %}
 
 {% block head %}
 <title>Your tarot reading</title>
@@ -52,5 +54,9 @@
     </div>
 </div>
 
-<!-- Reading Interpretation -->
+<!-- Interpretation-->
+ {% block interpretation %}
+    {% include "tarot/interpretation_block.html" %}
+{% endblock %}
+
 {% endblock %}

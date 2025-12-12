@@ -1,14 +1,11 @@
 from rest_framework.decorators import APIView
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from ..forms import readingForm
 from ..data.tarot import createReading, getReadingById, deleteReading
 from ..utils import TEMPLATE_DISPATCH
 
-@method_decorator(login_required, name='dispatch')
 class NewReadingView(APIView):
     def get(self, request):
         form = readingForm()
@@ -18,23 +15,33 @@ class NewReadingView(APIView):
         form = readingForm(request.POST)
         if form.is_valid():
             userId = request.session.get('user_id')
-            question = form.cleaned_data['question']
-            readingType = form.cleaned_data['readingType']
+            question = form.cleaned_data.get('question')
+            readingType_str = form.cleaned_data.get('readingType')
+            from ..models.tarot import ReadingType
+            try:
+                readingType = ReadingType[readingType_str]
+            except KeyError:
+                return Response({'error': f'Invalid reading type: {readingType_str}'}, status=status.HTTP_400_BAD_REQUEST)
             try:
                 newReading = createReading(userId, question, readingType)
-                return render(request, TEMPLATE_DISPATCH[readingType], {'reading': newReading})
+                if not newReading:
+                    return Response({'error': 'Could not create reading.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                # Redirect to the reading detail page after creation
+                return redirect('reading', reading_id=newReading.id)
             except Exception as e:
-                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response({'error': f'Error creating reading: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response({'error': 'Invalid form data'}, status=status.HTTP_400_BAD_REQUEST)
 
-@method_decorator(login_required, name='dispatch')
 class ReadingView(APIView):
     def get(self, request, reading_id):
         try:
             reading = getReadingById(reading_id)
             if reading:
-                return render(request, TEMPLATE_DISPATCH[reading.readingType], {'reading': reading})
+                reading_dict = reading.to_dict() if hasattr(reading, 'to_dict') else reading
+                print(reading_dict)  # Print the reading dictionary for debugging purposes
+                template_key = reading_dict['readingType']
+                return render(request, TEMPLATE_DISPATCH[template_key], {'reading': reading_dict})
             else:
                 return Response({'error': 'Reading not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:

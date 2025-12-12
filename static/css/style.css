@@ -1,0 +1,27 @@
+.tarot-img {
+    max-width: 120px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    background: #fff;
+    transition: transform 0.2s;
+}
+.tarot-img.reversed {
+    transform: rotate(180deg);
+    opacity: 0.92;
+    filter: grayscale(0.2) brightness(0.95);
+}
+body {
+    background-image: url("/static/background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    color: #fff;
+    text-align: center;
+    background-color: #222;
+}

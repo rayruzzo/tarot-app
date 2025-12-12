@@ -19,7 +19,11 @@ from django.conf import settings
 from django.urls import path
 from django.conf.urls.static import static
 from django.urls import path
-from tarot.views import NewReadingView, ReadingView, LoginView, SignUpView, HomeView, LogoutView
+from tarot.views import (
+    NewReadingView, ReadingView, 
+    LoginView, SignUpView, LogoutView,
+    HomeView, InterpretationAPIView
+)
 import uuid
 
 def dev_session_user(view_func):
@@ -35,8 +39,9 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', SignUpView.as_view(), name='signup'),
-    path('readings/new/', dev_session_user(NewReadingView.as_view()), name='new_reading'),
-    path('readings/<int:reading_id>/', dev_session_user(ReadingView.as_view()), name='reading'),
+    path('readings/new/', NewReadingView.as_view(), name='new_reading'),
+    path('readings/<str:reading_id>/', ReadingView.as_view(), name='reading'),
+    path('api/interpret/', InterpretationAPIView.as_view(), name='interpretation_api'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

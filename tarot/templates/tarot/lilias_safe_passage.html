@@ -1,4 +1,5 @@
-{% extends 'tarot/base.html' %}
+{% extends 'base.html' %}
+{% include "tarot/interpretation_block.html" %}
 
 {% block title %}Lilia's Safe Passage Reading{% endblock %}
 
@@ -98,6 +99,9 @@
   </div>
 </div>
 
-<!-- Reading Summary -->
+<!-- Interpretation-->
+ {% block interpretation %}
+    {% include "tarot/interpretation_block.html" %}
+{% endblock %}
 
 {% endblock %}

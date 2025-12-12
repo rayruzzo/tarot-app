@@ -1,5 +1,5 @@
 from .system_prompts import interpreter_prompt
-from ..models import LLMRequest, AIPrompt
+from ..models import LLMRequest, AIPrompt, Reading
 from ..utils import handle_errors
 
 @handle_errors
@@ -16,6 +16,7 @@ def get_prompt(reading_id):
     prompt = AIPrompt.objects.get(reading_id=reading_id)
     return prompt
 
+@handle_errors
 def generate_interpretation_prompt(reading_id):
     new_prompt = create_interpretation_prompt(reading_id)
     messages = new_prompt.create_messages()
@@ -24,3 +25,14 @@ def generate_interpretation_prompt(reading_id):
 
     return response
 
+@handle_errors
+def save_interpretation(reading_id, interpretation):
+    reading = Reading.objects.get(id=reading_id)
+    reading.interpretation = interpretation
+    reading.save()
+    return reading
+
+@handle_errors
+def get_interpretation(reading_id):
+    reading = Reading.objects.get(id=reading_id)
+    return reading.interpretation

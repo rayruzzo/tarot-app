@@ -10,8 +10,8 @@ from .models import UserPassword
 openai.api_key = settings.OPENAI_API_KEY
 
 TEMPLATE_DISPATCH = {
-    "past_present_future": "tarot/past_present_future.html",
-    "safe_passage": "tarot/lilias_safe_passage.html",
+    "PPF": "tarot/past_present_future.html",
+    "LILIA": "tarot/lilias_safe_passage.html",
 }
 
 
