@@ -15,6 +15,94 @@
     opacity: 0.92;
     filter: grayscale(0.2) brightness(0.95);
 }
+
+
+
+:root {
+  --color-bg-main: #12192D;
+  --color-bg-alt: #0F1525;
+  --color-bg-panel: #090C17;
+  --color-text-main: #F5F6FA;
+  --color-text-muted: #C8CBD2;
+  --color-accent: #FFD700;
+  --color-accent-2: #7FDBFF;
+  --color-border: #747782;
+}
+
+form {
+  max-width: 420px;
+  margin: 2em auto;
+  padding: 2em 2em 1.5em 2em;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+
+form .btn {
+  background: var(--color-accent);
+}
+form .btn-wrapper {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}   
+
+form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+form label {
+  color: var(--color-accent-2);
+  font-weight: 500;
+  margin-bottom: 0.3em;
+  text-align: left;
+}
+form input[type="text"],
+form input[type="email"],
+form textarea,
+form select {
+  padding: 0.7em 1em;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg-main);
+  color: var(--color-text-main);
+  font-size: 1em;
+  margin-bottom: 0.5em;
+  transition: border 0.2s;
+}
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form textarea:focus,
+form select:focus {
+  background: var(--color-accent);
+  color: #222;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  padding: 0.8em 1.2em;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+form .btn {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+}
+form input[type="submit"]:hover,
+form .btn:hover {
+  background: var(--color-accent-2);
+  color: #111;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
 body {
     background-image: url("/static/background.png");
     background-size: cover;
@@ -24,4 +112,48 @@ body {
     color: #fff;
     text-align: center;
     background-color: #222;
+}
+
+main {
+  position: fixed;
+  overflow-y: auto;
+  width: 90%;
+  height: 80%;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  margin: auto;
+  display: block;
+}
+
+
+header, footer {
+  background: var(--color-bg-alt);
+}
+
+.container {
+  background: rgba(9, 12, 23, 0.85); 
+}
+
+.tarot-reading-container, .reading-form {
+  display: block;
+}
+
+h1, h2, h3, .card-title {
+  color: var(--color-accent);
+}
+.btn, .button, .get-interpretation-btn {
+  background: var(--color-accent);
+  color: var(--color-bg-main);
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1.2em;
+  cursor: pointer;
+}
+.interpretation-block, .journal-offer {
+  background: var(--color-bg-alt);
+  color: var(--color-text-main);
+  border-radius: 6px;
+  padding: 1em;
 }
