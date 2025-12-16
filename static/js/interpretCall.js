@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (data.interpretation) {
 				if (target) {
 					target.innerHTML = data.interpretation;
-					// Hide the button after successful interpretation
 					btn.style.display = 'none';
 				} else {
 					alert(data.interpretation);
