@@ -157,3 +157,53 @@ h1, h2, h3, .card-title {
   border-radius: 6px;
   padding: 1em;
 }
+
+  .tarot-row {
+      margin-bottom: 1rem;
+      gap: 1.5rem;
+      display: flex !important;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+  /* Tarot card row alignment fix */
+  .tarot-card-row {
+    display: flex;
+    align-items: flex-start; /* Align cards to the top of the row */
+    gap: 1rem;
+  }
+
+  .tarot-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 320px; /* Set a minimum height for all cards, adjust as needed */
+    box-sizing: border-box;
+  }
+
+  .tarot-card .card-text {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .tarot-card-wrapper {
+    flex: 1 1 220px;
+    min-width: 180px;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    margin: 0 0.5rem;
+  }
+  .tarot-img {
+    width: 85%;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.5rem auto;
+  }
+  .tarot-img.reversed {
+    transform: rotate(180deg);
+  }

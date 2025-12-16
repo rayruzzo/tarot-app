@@ -6,10 +6,12 @@ from django.conf import settings
 
 openai.api_key = settings.OPENAI_API_KEY
 
-class AIPrompt(Document):
+class TarotInterpreter(Document):
     readingId = StringField(required=True)
     systemPrompt = StringField()
-    meta = {'collection': 'AI_prompts'}
+    messages = ListField(DictField(), required=False)
+    interpretation = StringField(required=False)
+    meta = {'collection': 'interpretations'}
 
     def create_messages(self):
         reading = Reading.objects(id=self.readingId).first()
@@ -29,17 +31,41 @@ class AIPrompt(Document):
             {"role": "system", "content": self.systemPrompt},
             {
                 "role": "user", 
-                "content": f"""Based on the following tarot reading, provide a detailed interpretation: 
-                                \nQuestion: {question} Cards:{kwargs}"""
+                "content": f"""Based on the following tarot reading, provide a detailed interpretation: \nQuestion: {question} Cards:{kwargs}"""
             },
-            ]
+        ]
+        self.save()
         return self.messages
+    
+    def interpret_reading(self):
+        messages = self.create_messages()
+        request = LLMRequest(messages=messages)
+        interpretation = request.make_request()
+        # Ensure interpretation is a string
+        if interpretation is None:
+            interpretation = ""
+        else:
+            interpretation = str(interpretation)
+        self.interpretation = interpretation
+        self.save()
+
+        reading = Reading.objects(id=self.readingId).first()
+        if reading:
+            reading.interpretator = self
+            reading.save()
+        
+        return interpretation
+    
+
+    def get_reading(self):
+        return Reading.objects(id=self.readingId).first()
+    
     
 class LLMRequest(Document):
     model = StringField(required=True, default="gpt-4o-mini")
     messages = ListField(DictField(), required=True)
     temperature = FloatField(default=0.7)
-    max_tokens = IntField(default=300)
+    max_tokens = IntField(default=500)
 
     def to_dict(self):
         return {

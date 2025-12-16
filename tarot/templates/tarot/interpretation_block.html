@@ -2,7 +2,7 @@
 <div class="interpretation-block">
 {% if reading.interpretation %}
         <h3>Interpretation:</h3>
-        <p>{{ reading.interpretation }}</p>
+        {{ reading.interpretation|safe }}
     </div>
 {% else %}
     <button class="get-interpretation-btn">

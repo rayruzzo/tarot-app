@@ -1,3 +1,5 @@
+{% load static %}
+
 {% block reading %}
 <div class="tarot-reading-spread">
 <h2>Lilia's Safe Passage Spread</h2>
@@ -62,23 +64,10 @@
   </div>
 </div>
 
-<!-- Row 2a: Destination (overlay on Traveler) -->
-<div class="destination-wrapper">
-  <div class="tarot-card-wrapper destination-card">
-    <h3>Destination</h3>
-    {% if reading.reversals.6 %}
-      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
-      <p class="reversed-text">Reversed: {{ reading.cards.destination.meaning_rev }}</p>
-    {% else %}
-      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
-      <p class="upright-text">{{ reading.cards.destination.meaning_up }}</p>
-    {% endif %}
-  </div>
-</div>
 
 
 <!-- Row 3: What's Missing -->
-<div class="tarot-row" style="margin-top: -180px;">
+<div class="tarot-row">
   <div class="tarot-card-wrapper">
     <h3>What's Missing</h3>
     {% if reading.reversals.1 %}
@@ -87,6 +76,16 @@
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.what_is_missing.img }}">
       <p class="upright-text">{{ reading.cards.what_is_missing.meaning_up }}</p>
+    {% endif %}
+  </div>
+    <div class="tarot-card-wrapper">
+    <h3>Destination</h3>
+    {% if reading.reversals.6 %}
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.w.img }}">
+      <p class="reversed-text">Reversed: {{ reading.cards.destination.meaning_rev }}</p>
+    {% else %}
+      <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
+      <p class="upright-text">{{ reading.cards.destination.meaning_up }}</p>
     {% endif %}
   </div>
 </div>

@@ -1,40 +1,29 @@
 from .system_prompts import interpreter_prompt
-from ..models import LLMRequest, AIPrompt, Reading
+from ..models import LLMRequest, TarotInterpreter, Reading
 from ..utils import handle_errors
 
 @handle_errors
-def create_interpretation_prompt(reading_id): 
-    print(f"[create_interpretation_prompt] reading_id: {reading_id}")
-    new_interpretation = AIPrompt(
+def create_interpreter(reading_id): 
+    print(f"[create_interpreter] reading_id: {reading_id}")
+    new_interpreter = TarotInterpreter(
         readingId=reading_id,
         systemPrompt=interpreter_prompt,
     )
-    new_interpretation.save()
-    print(f"[create_interpretation_prompt] Created and saved AIPrompt: {new_interpretation}")
-    return new_interpretation
+    new_interpreter.save()
+    print(f"[create_interpreter] Created and saved TarotInterpreter: {new_interpreter}")
+    return {"TarotInterpreter": new_interpreter, "interpreterId": new_interpreter.id, "status": "success"}
 
 @handle_errors
-def get_prompt(reading_id):
-    prompt = AIPrompt.objects.get(readingId=reading_id)
-    return prompt
+def get_interpreter(reading_id):
+    interpreter = TarotInterpreter.objects.get(readingId=reading_id)
+    return {"TarotInterpreter": interpreter, "status": "success"}
 
 @handle_errors
-def generate_interpretation_prompt(reading_id):
-    new_prompt = create_interpretation_prompt(reading_id)
-    messages = new_prompt.create_messages()
-
-    response = LLMRequest(messages=messages).make_request()
-
-    return response
-
-@handle_errors
-def save_interpretation(reading_id, interpretation):
-    reading = Reading.objects.get(id=reading_id)
-    reading.interpretation = interpretation
-    reading.save()
-    return reading
-
-@handle_errors
-def get_interpretation(reading_id):
-    reading = Reading.objects.get(id=reading_id)
-    return reading.interpretation
+def generate_interpretation(interpreter_id):
+    try:
+        interpreter = TarotInterpreter.objects.get(id=interpreter_id)
+        _ = interpreter.create_messages()
+        interpretation = interpreter.interpret_reading()
+        return {"interpretation": interpretation, "status": "success"}
+    except Exception as e:
+        return {"error": str(e), "status": "error"}

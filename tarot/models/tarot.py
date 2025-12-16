@@ -1,5 +1,6 @@
 from enum import Enum
-from mongoengine import Document, StringField, EnumField, ListField, IntField, GenericReferenceField, ReferenceField
+from datetime import datetime
+from mongoengine import Document, StringField, EnumField, ListField, IntField, GenericReferenceField, ReferenceField, DateTimeField
 
 class TarotCard(Document):
     type = StringField(required=True)
@@ -89,25 +90,29 @@ class LiliaReading(Document):
         }
 
 class Reading(Document):
+    createdAt = DateTimeField(required=True, default=datetime.utcnow)
     user = StringField(required=True)
     question = StringField(required=True)
     readingType = EnumField(ReadingType, required=True)
     cards = GenericReferenceField(required=True)
     reversals = ListField(required=True)
-    interpretation = StringField(required=False, default="")
+    interpretator = GenericReferenceField(required=False)
     meta = {'collection': 'readings'}
     def __str__(self):
         cardString = self.cards.__str__()
         return self.user + " - " + self.question + " - " + cardString
     
     def to_dict(self):
+        interpretation = self.interpretator.interpretation if hasattr(self.interpretator, 'interpretation') else None
+        created_at_str = self.createdAt.isoformat() if self.createdAt else None
         return {
             "_id": str(self.id),
             "id": str(self.id),
+            "createdAt": created_at_str,
             "user": self.user,
             "question": self.question,
             "readingType": self.readingType.name,
             "cards": self.cards.to_dict(),
             "reversals": self.reversals,
-            "interpretation": self.interpretation
+            "interpretation": interpretation
         }

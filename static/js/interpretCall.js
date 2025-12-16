@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			const target = document.querySelector('.interpretation-result');
 			if (data.interpretation) {
 				if (target) {
-					target.textContent = data.interpretation;
+					target.innerHTML = data.interpretation;
+					// Hide the button after successful interpretation
+					btn.style.display = 'none';
 				} else {
 					alert(data.interpretation);
 				}
