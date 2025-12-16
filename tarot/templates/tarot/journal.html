@@ -1,0 +1,10 @@
+{% load static %}
+
+{ % if reading.journal %}
+<div class="journal-offer">
+    <a href="{% url 'user_journal' reading_id=reading.id %}" class="button">View your journal entry</a>
+</div>
+{ % else %}
+<div class="journal-offer">
+    <a href="{% url 'create_journal_entry' reading_id=reading.id %}" class="button">Would you like to journal about this reading?</a>
+</div>

@@ -22,7 +22,8 @@ from django.urls import path
 from tarot.views import (
     NewReadingView, ReadingView, 
     LoginView, SignUpView, LogoutView,
-    HomeView, InterpretationAPIView
+    HomeView, InterpretationAPIView,
+    UserJournalView, CreateJournalEntryView, JournalEntryView
 )
 import uuid
 
@@ -41,6 +42,8 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
     path('readings/new/', NewReadingView.as_view(), name='new_reading'),
     path('readings/<str:reading_id>/', ReadingView.as_view(), name='reading'),
+    path('readings/<str:reading_id>/journal/new/', CreateJournalEntryView.as_view(), name='create_journal_entry'),
+    path('readings/<str:reading_id>/journal/', JournalEntryView.as_view(), name='user_journal'),
     path('api/interpret/', InterpretationAPIView.as_view(), name='interpretation_api'),
 ]
 

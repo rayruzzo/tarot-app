@@ -97,6 +97,7 @@ class Reading(Document):
     cards = GenericReferenceField(required=True)
     reversals = ListField(required=True)
     interpretator = GenericReferenceField(required=False)
+    journal = GenericReferenceField(required=False)
     meta = {'collection': 'readings'}
     def __str__(self):
         cardString = self.cards.__str__()

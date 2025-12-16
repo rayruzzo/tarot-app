@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Journal Entry{% endblock %}
+
+{%block header%}
+<div class="reading-header">
+    <h2>Your Journal Entry</h2>
+    <p class="lead">
+        What's on your mind today?
+    </p>
+  </div>
+{% endblock %}
+{% block content %}
+<div class="journal-toggle mb-3">
+  <label><input type="radio" name="journal_type" value="guided" checked> Guided</label>
+  <label><input type="radio" name="journal_type" value="freeform"> Freeform</label>
+</div>
+
+
+<form id="guided-form" method="post" action="{% url 'user_journal' reading_id=reading_id %}" style="display: block; border: 2px solid red; padding: 10px; background: #fffbe6;">
+  {% csrf_token %}
+  <div style="color: red;">{{ guided_form.errors }}</div>
+  <div>Fields: {{ guided_form.fields }}</div>
+  {{ guided_form.as_p }}
+  <input type="hidden" name="type" value="GUIDED">
+  <button type="submit" class="btn btn-primary" style="display: inline-block !important; visibility: visible !important; border: 2px solid blue; background: yellow; color: black;">Submit</button>
+  <span style="color: green; font-weight: bold;">[DEBUG: Guided Submit Button Rendered]</span>
+</form>
+
+
+<form id="freeform-form" method="post" action="{% url 'user_journal' reading_id=reading_id %}" style="display: none; border: 2px solid red; padding: 10px; background: #fffbe6;">
+  {% csrf_token %}
+  <div style="color: red;">{{ freeform_form.errors }}</div>
+  <div>Fields: {{ freeform_form.fields }}</div>
+  {{ freeform_form.as_p }}
+  <input type="hidden" name="type" value="FREEFORM">
+  <button type="submit" class="btn btn-primary" style="display: inline-block !important; visibility: visible !important; border: 2px solid blue; background: yellow; color: black;">Submit</button>
+  <span style="color: green; font-weight: bold;">[DEBUG: Freeform Submit Button Rendered]</span>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const guidedForm = document.getElementById('guided-form');
+    const freeformForm = document.getElementById('freeform-form');
+    const radios = document.getElementsByName('journal_type');
+    // Set initial state
+    guidedForm.style.display = 'block';
+    freeformForm.style.display = 'none';
+    radios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === 'guided') {
+          guidedForm.style.display = 'block';
+          freeformForm.style.display = 'none';
+        } else {
+          guidedForm.style.display = 'none';
+          freeformForm.style.display = 'block';
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
