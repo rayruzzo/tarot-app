@@ -23,16 +23,9 @@ from tarot.views import (
     NewReadingView, ReadingView, 
     LoginView, SignUpView, LogoutView,
     HomeView, InterpretationAPIView,
-    UserJournalView, CreateJournalEntryView, JournalEntryView
+    UserJournalView, CreateJournalEntryView, JournalEntryView,
+    EditJournalEntryView
 )
-import uuid
-
-def dev_session_user(view_func):
-    def _wrapped_view(request, *args, **kwargs):
-        if 'dev_session_id' not in request.session:
-            request.session['dev_session_id'] = str(uuid.uuid4())
-        return view_func(request, *args, **kwargs)
-    return _wrapped_view
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -44,6 +37,7 @@ urlpatterns = [
     path('readings/<str:reading_id>/', ReadingView.as_view(), name='reading'),
     path('readings/<str:reading_id>/journal/new/', CreateJournalEntryView.as_view(), name='create_journal_entry'),
     path('readings/<str:reading_id>/journal/', JournalEntryView.as_view(), name='user_journal'),
+    path('readings/<str:reading_id>/journal/<str:entry_id>/edit/', EditJournalEntryView.as_view(), name='edit_journal_entry'),
     path('api/interpret/', InterpretationAPIView.as_view(), name='interpretation_api'),
 ]
 

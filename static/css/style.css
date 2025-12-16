@@ -1,209 +1,555 @@
-.tarot-img {
-    max-width: 120px;
-    max-height: 200px;
-    width: auto;
-    height: auto;
-    display: block;
-    margin: 0 auto 1rem auto;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    border-radius: 8px;
-    background: #fff;
-    transition: transform 0.2s;
-}
-.tarot-img.reversed {
-    transform: rotate(180deg);
-    opacity: 0.92;
-    filter: grayscale(0.2) brightness(0.95);
-}
 
-
-
+/* ===== CSS Variables ===== */
 :root {
   --color-bg-main: #12192D;
-  --color-bg-alt: #0F1525;
+  --color-bg-alt: #1A2340;
   --color-bg-panel: #090C17;
   --color-text-main: #F5F6FA;
-  --color-text-muted: #C8CBD2;
-  --color-accent: #FFD700;
-  --color-accent-2: #7FDBFF;
-  --color-border: #747782;
+  --color-text-muted: #C5C8D0;
+  --color-accent: #D4AF37;
+  --color-accent-2: #E8C872;
+  --color-accent-dark: #B8941F;
+  --color-border: #374151;
+  --color-border-light: #4B5563;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
-form {
-  max-width: 420px;
-  margin: 2em auto;
-  padding: 2em 2em 1.5em 2em;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2em;
+/* ===== Global Styles ===== */
+* {
+  box-sizing: border-box;
 }
 
-form .btn {
+body {
+  background-image: url("/static/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  background-color: var(--color-bg-panel);
+  color: var(--color-text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ===== Main Container ===== */
+main {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  min-height: 80vh;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(18, 25, 45, 0.75);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for main */
+main::-webkit-scrollbar {
+  width: 10px;
+}
+
+main::-webkit-scrollbar-track {
+  background: rgba(9, 12, 23, 0.5);
+  border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb {
   background: var(--color-accent);
+  border-radius: 10px;
+  transition: background 0.3s;
 }
-form .btn-wrapper {
-  background: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}   
 
-form form {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+main::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-2);
 }
+
+/* ===== Typography ===== */
+h1, h2, h3, .card-title {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h1 a, h1 a:visited, h1 a:active {
+  color: #FFD700 !important;
+  text-shadow: none !important;
+  text-decoration: none;
+}
+h1 a:hover {
+  color: #FFE14D !important;
+  text-shadow: none !important;
+  text-decoration: underline;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+/* ===== Enhanced Buttons ===== */
+.btn, 
+.button, 
+.btn-primary,
+.get-interpretation-btn,
+button[type="submit"],
+input[type="submit"],
+a.btn,
+a.button,
+a.btn-primary {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: #1A1A1A !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25),
+              inset 0 1px 3px rgba(255, 255, 255, 0.2),
+              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  min-width: 160px;
+}
+
+.btn-small{
+    font-size: 0.8rem;
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+    font-weight: 600;
+    margin: 0.5rem auto;
+    text-transform: uppercase;
+    text-align: center;
+    width: auto;
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3),
+                inset 0 1px 3px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btn::before,
+.button::before,
+.get-interpretation-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before,
+.button:hover::before,
+.get-interpretation-btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover, 
+.button:hover, 
+.btn-primary:hover,
+.get-interpretation-btn:hover,
+button[type="submit"]:hover,
+input[type="submit"]:hover,
+a.btn:hover,
+a.button:hover,
+a.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4),
+              inset 0 1px 3px rgba(255, 255, 255, 0.3),
+              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent) 100%);
+  border-color: var(--color-accent-2);
+}
+
+.btn:active,
+.button:active,
+.btn-primary:active,
+.get-interpretation-btn:active,
+a.btn:active,
+a.button:active,
+a.btn-primary:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3),
+              inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary button style */
+.btn-secondary {
+  background: linear-gradient(135deg, #5A7D9A 0%, #3B5A75 100%);
+  border-color: rgba(90, 125, 154, 0.4);
+  box-shadow: 0 6px 20px rgba(90, 125, 154, 0.25),
+              inset 0 1px 3px rgba(255, 255, 255, 0.2),
+              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+  color: #FFFFFF !important;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #7A9DB8 0%, #5A7D9A 100%);
+  box-shadow: 0 10px 30px rgba(90, 125, 154, 0.4),
+              inset 0 1px 3px rgba(255, 255, 255, 0.3),
+              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+  border-color: #7A9DB8;
+}
+
+/* Outline button style */
+.btn-outline {
+  background: rgba(212, 175, 55, 0.05);
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent) !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15),
+              inset 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+.btn-outline:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--color-accent-2);
+  color: var(--color-accent-2) !important;
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3),
+              inset 0 0 30px rgba(212, 175, 55, 0.1);
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* ===== Enhanced Forms ===== */
+form {
+  max-width: 700px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: rgba(26, 35, 64, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+.reading-form {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  display: block;
+}
+
 form label {
-  color: var(--color-accent-2);
+  display: block;
+  color: var(--color-accent);
   font-weight: 500;
-  margin-bottom: 0.3em;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
   text-align: left;
+  letter-spacing: 0.3px;
 }
+
 form input[type="text"],
 form input[type="email"],
 form textarea,
 form select {
-  padding: 0.7em 1em;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: var(--color-bg-main);
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  background: rgba(18, 25, 45, 0.6);
   color: var(--color-text-main);
-  font-size: 1em;
-  margin-bottom: 0.5em;
-  transition: border 0.2s;
+  font-size: 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  display: block;
+  box-sizing: border-box;
 }
+
+form input[type="text"]::placeholder,
+form input[type="email"]::placeholder,
+form textarea::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form textarea:focus,
 form select:focus {
-  background: var(--color-accent);
-  color: #222;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  padding: 0.8em 1.2em;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-  cursor: pointer;
+  outline: none;
+  border-color: var(--color-accent);
+  background: rgba(26, 35, 64, 0.8);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  transform: translateY(-1px);
 }
 
-form .btn {
-  background: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
+form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4AF37' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* Form button styling */
+form button[type="submit"],
+form input[type="submit"],
+form .btn,
+form .btn-primary,
+form .button {
+  width: 100%;
+  margin-top: 0.5rem;
+  display: block;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: #1A1A1A !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25),
+              inset 0 1px 3px rgba(255, 255, 255, 0.2),
+              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  min-width: auto;
+}
+
+form button[type="submit"]:hover,
+form input[type="submit"]:hover,
+form .btn:hover,
+form .btn-primary:hover,
+form .button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4),
+              inset 0 1px 3px rgba(255, 255, 255, 0.3),
+              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent) 100%);
+  border-color: var(--color-accent-2);
+}
+
+/* ===== Tarot Card Styles ===== */
+.tarot-reading-container {
+  padding: 2rem 0;
+}
+
+.tarot-row {
+  display: flex !important;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
   width: 100%;
 }
-form input[type="submit"]:hover,
-form .btn:hover {
-  background: var(--color-accent-2);
-  color: #111;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+
+.tarot-card-wrapper {
+  flex: 0 1 240px;
+  min-width: 200px;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(26, 35, 64, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-body {
-    background-image: url("/static/background.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center center;
-    color: #fff;
-    text-align: center;
-    background-color: #222;
+.tarot-card-wrapper:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+  border-color: var(--color-accent);
 }
 
-main {
-  position: fixed;
-  overflow-y: auto;
-  width: 90%;
-  height: 80%;
-  top: 0; 
-  left: 0; 
-  right: 0; 
-  bottom: 0;
-  margin: auto;
+.tarot-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  height: 100%;
+}
+
+.tarot-img {
+  max-width: 140px;
+  max-height: 220px;
+  width: auto;
+  height: auto;
   display: block;
+  margin: 0 auto 1.25rem auto;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-
-header, footer {
-  background: var(--color-bg-alt);
+.tarot-card-wrapper:hover .tarot-img {
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
 }
 
-.container {
-  background: rgba(9, 12, 23, 0.85); 
+.tarot-img.reversed {
+  transform: rotate(180deg);
+  opacity: 0.9;
+  filter: grayscale(0.15) brightness(0.92);
 }
 
-.tarot-reading-container, .reading-form {
-  display: block;
-}
-
-h1, h2, h3, .card-title {
+.card-title {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
   color: var(--color-accent);
+  flex-shrink: 0;
 }
-.btn, .button, .get-interpretation-btn {
-  background: var(--color-accent);
-  color: var(--color-bg-main);
-  border: none;
-  border-radius: 4px;
-  padding: 0.5em 1.2em;
-  cursor: pointer;
+
+.card-text {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 0.5rem;
 }
-.interpretation-block, .journal-offer {
-  background: var(--color-bg-alt);
+
+/* ===== Interpretation & Content Blocks ===== */
+.interpretation-block, 
+.journal-offer {
+  background: rgba(26, 35, 64, 0.5);
+  backdrop-filter: blur(10px);
   color: var(--color-text-main);
-  border-radius: 6px;
-  padding: 1em;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: var(--shadow-sm);
 }
+
+.interpretation-block h3,
+.journal-offer h3 {
+  margin-top: 0;
+  color: var(--color-accent-2);
+}
+
+/* ===== Header & Footer ===== */
+header {
+display: flex;
+  background: rgba(18, 25, 45, 0.85);
+  backdrop-filter: blur(12px);
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 3rem;
+}
+
+footer {
+  background: rgba(18, 25, 45, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.2);
+  padding: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+footer {
+  border-top: 1px solid rgba(167, 139, 250, 0.2);
+  border-bottom: none;
+  margin-top: 3rem;
+}
+
+.header-left {
+  flex: 1;
+  text-align: left;
+}
+
+.header-right {
+  flex: 1;
+  text-align: right;
+}
+
+/* ===== Container ===== */
+.container {
+  background: rgba(18, 25, 45, 0.9);
+  backdrop-filter: blur(3px);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 1rem 0;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  main {
+    width: 95%;
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+
+  form {
+    padding: 1.5rem;
+  }
 
   .tarot-row {
-      margin-bottom: 1rem;
-      gap: 1.5rem;
-      display: flex !important;
-      justify-content: center;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-  /* Tarot card row alignment fix */
-  .tarot-card-row {
-    display: flex;
-    align-items: flex-start; /* Align cards to the top of the row */
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
-  .tarot-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 320px; /* Set a minimum height for all cards, adjust as needed */
-    box-sizing: border-box;
-  }
-
-  .tarot-card .card-text {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: flex-start;
-    width: 100%;
-  }
   .tarot-card-wrapper {
-    flex: 1 1 220px;
-    min-width: 180px;
-    max-width: 260px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    margin: 0 0.5rem;
+    flex: 0 1 100%;
+    max-width: 100%;
   }
-  .tarot-img {
-    width: 85%;
-    height: auto;
-    display: block;
-    margin: 0 auto 0.5rem auto;
+
+  h1 {
+    font-size: 2rem;
   }
-  .tarot-img.reversed {
-    transform: rotate(180deg);
+
+  h2 {
+    font-size: 1.75rem;
   }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 1rem;
+  }
+
+  form {
+    padding: 1.25rem;
+  }
+
+  .btn, .button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}

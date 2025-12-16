@@ -1,0 +1,48 @@
+{% load static %}
+
+<form id="guided-form" method="post" action="{% url 'edit_journal_entry' reading_id=reading_id entry_id=entry_id %}?entry_type=1" style="display: {% if entry.type == '1' %}block{% else %}none{% endif %};">
+  {% csrf_token %}
+  {% if guided_form.errors %}
+    <div style="color: red;">{{ guided_form.errors }}</div>
+  {% endif %}
+  {{ guided_form.as_p }}
+  <input type="hidden" name="type" value="GUIDED">
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<form id="freeform-form" method="post" action="{% url 'edit_journal_entry' reading_id=reading_id entry_id=entry_id %}?entry_type=0" style="display: {% if entry.type == '0' or not entry.type %}block{% else %}none{% endif %};">
+  {% csrf_token %}
+  {% if freeform_form.errors %}
+    <div style="color: red;">{{ freeform_form.errors }}</div>
+  {% endif %}
+  {{ freeform_form.as_p }}
+  <input type="hidden" name="type" value="FREEFORM">
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const guidedForm = document.getElementById('guided-form');
+    const freeformForm = document.getElementById('freeform-form');
+    const radios = document.getElementsByName('journal_type');
+    var entryType = '{{ entry.type|stringformat:"s" }}';
+    if (entryType === '1') {
+      guidedForm.style.display = 'block';
+      freeformForm.style.display = 'none';
+    } else {
+      guidedForm.style.display = 'none';
+      freeformForm.style.display = 'block';
+    }
+    radios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === 'guided') {
+          guidedForm.style.display = 'block';
+          freeformForm.style.display = 'none';
+        } else {
+          guidedForm.style.display = 'none';
+          freeformForm.style.display = 'block';
+        }
+      });
+    });
+  });
+</script>

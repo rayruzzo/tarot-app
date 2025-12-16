@@ -8,16 +8,26 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
 
-    <header>
-            <h1>Wayfindr</h1>
+    <header class="site-header">
+    <div class="header-left">
+        <h1><a href="/">Wayfindr</a></h1>
+    </div>
+    <div class="header-right">
+        {% if request.is_logged_in %}
+            <span>Welcome, {{ request.session.user_name}}</span>
+            <a href="/logout/" class="btn-small">Logout</a>
+        {% else %}
+        <a href="/login/" class="btn-small">Login</a>
+        <a href="/signup/" class="btn-small">Sign Up</a>
+        {% endif %}
+    </div>
     </header>
-
 
     <body>
         <main>
             {% block header %}
             {% endblock %}  
-            
+
             {% block content %}
             {% endblock %}
         </main>

@@ -1,7 +1,7 @@
 from .reading import ReadingView, NewReadingView
 from .main import LoginView, SignUpView, LogoutView, HomeView
 from .interpret import InterpretationAPIView
-from .journal import UserJournalView, CreateJournalEntryView, JournalEntryView
+from .journal import UserJournalView, CreateJournalEntryView, JournalEntryView, EditJournalEntryView
 
 __all__ = [
               'ReadingView',
@@ -13,5 +13,6 @@ __all__ = [
               'InterpretationAPIView',
               'UserJournalView',
               'CreateJournalEntryView',
-              'JournalEntryView'
+              'JournalEntryView',
+              'EditJournalEntryView'
         ]

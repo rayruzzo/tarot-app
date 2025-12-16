@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
-
 <div class="container">
-{%if entry.type == 1 %}
-{% include 'journal/guided_entry.html' %}
-{% elif entry.type == 0 %}
-{% include 'journal/freeform_entry.html' %}
-{% endif %}
-{% endblock %}
+    <h2>Journal Entry</h2>
+    {% if entry.type == 1 %}
+        {% include 'journal/guided_entry.html' %}
+    {% elif entry.type == 0 %}
+        {% include 'journal/freeform_entry.html' %}
+    {% endif %}
+    <div class="edit-entry-link">
+        <a href="#" class="edit-journal-btn btn-primary" data-reading-id="{{ entry.readingId }}" data-entry-id="{{ entry.id }}" data-entry-type="{{ entry.type }}">Edit Entry</a>
+    </div>
 </div>

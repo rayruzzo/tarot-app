@@ -34,8 +34,8 @@ class GuidedJournalEntry(BaseJournalEntry):
             'id': str(self.id),
             '_id': str(self.id),
             'readingId': self.readingId,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
             'type': self.type,
             'feel': self.feel,
             'notice': self.notice,
@@ -52,8 +52,8 @@ class FreeFormJournalEntry(BaseJournalEntry):
             'id': str(self.id),
             '_id': str(self.id),
             'readingId': self.readingId,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
             'type': self.type,
             'content': self.content
         }

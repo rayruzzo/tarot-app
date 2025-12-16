@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {%block title%}Home{%endblock%}
 
@@ -13,7 +15,7 @@
         {% for reading in readings %}
             <div class="reading">
                 <h4>{{ reading.title }}</h4>
-                <a href="/readings/{{ reading.id }}">View Details</a>
+                <a href="/readings/{{ reading.id }}" class="btn">View Details</a>
             </div>
         {% endfor %}
 
@@ -22,7 +24,7 @@
 
     <div class="user-actions">
         <h3>Actions</h3>
-        <a href="/readings/new/">Get a New Reading</a>
+        <a href="/readings/new/" class="btn">Get a New Reading</a>
 
     </div>
 

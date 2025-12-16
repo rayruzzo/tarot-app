@@ -11,4 +11,4 @@ class GuidedJournalEntryForm(Form):
             )
 
 class FreeFormJournalEntryForm(Form):
-    entry_text = CharField(widget=Textarea(attrs={'rows': 10, 'cols': 50}), label="Journal Entry Text")
+    content = CharField(widget=Textarea(attrs={'rows': 10, 'cols': 50}), label="Journal Entry Text")

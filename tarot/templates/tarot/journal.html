@@ -1,10 +1,66 @@
 {% load static %}
 
-{ % if reading.journal %}
-<div class="journal-offer">
-    <a href="{% url 'user_journal' reading_id=reading.id %}" class="button">View your journal entry</a>
+
+{% if reading.journal %}
+<div class="journal-container" id="journal-container">
+    {% include 'journal/journal_entry.html' with entry=reading.journal %}
 </div>
-{ % else %}
+{% else %}
 <div class="journal-offer">
-    <a href="{% url 'create_journal_entry' reading_id=reading.id %}" class="button">Would you like to journal about this reading?</a>
+    <button id="show-journal-form" class="button">Would you like to journal about this reading?</button>
 </div>
+{% endif %}
+
+<div id="journal-form-container"></div>
+<script>
+function initJournalToggle() {
+    const guidedForm = document.getElementById('guided-form');
+    const freeformForm = document.getElementById('freeform-form');
+    const radios = document.getElementsByName('journal_type');
+    if (!guidedForm || !freeformForm || !radios.length) return;
+    // Set initial state
+    guidedForm.style.display = 'block';
+    freeformForm.style.display = 'none';
+    radios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'guided') {
+                guidedForm.style.display = 'block';
+                freeformForm.style.display = 'none';
+            } else {
+                guidedForm.style.display = 'none';
+                freeformForm.style.display = 'block';
+            }
+        });
+    });
+}
+
+const showJournalBtn = document.getElementById('show-journal-form');
+if (showJournalBtn) {
+    showJournalBtn.addEventListener('click', function() {
+        fetch('{% url "create_journal_entry" reading_id=reading.id %}')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('journal-form-container').innerHTML = html;
+                initJournalToggle();
+            });
+        this.style.display = 'none';
+    });
+}
+// Edit journal entry AJAX loader
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.addEventListener('click', function(e) {
+        if (e.target.classList.contains('edit-journal-btn')) {
+            e.preventDefault();
+            const readingId = e.target.getAttribute('data-reading-id');
+            const entryId = e.target.getAttribute('data-entry-id');
+            const entryType = e.target.getAttribute('data-entry-type');
+            fetch(`/readings/${readingId}/journal/${entryId}/edit/?entry_type=${entryType}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('journal-container').innerHTML = html;
+                    if (typeof initJournalToggle === 'function') initJournalToggle();
+                });
+        }
+    });
+});
+</script>

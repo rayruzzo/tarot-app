@@ -106,6 +106,7 @@ class Reading(Document):
     def to_dict(self):
         interpretation = self.interpretator.interpretation if hasattr(self.interpretator, 'interpretation') else None
         created_at_str = self.createdAt.isoformat() if self.createdAt else None
+        journal_dict = self.journal.to_dict() if self.journal else None
         return {
             "_id": str(self.id),
             "id": str(self.id),
@@ -115,5 +116,6 @@ class Reading(Document):
             "readingType": self.readingType.name,
             "cards": self.cards.to_dict(),
             "reversals": self.reversals,
-            "interpretation": interpretation
+            "interpretation": interpretation,
+            "journal": journal_dict
         }

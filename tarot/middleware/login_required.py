@@ -26,3 +26,8 @@ class SessionLoginRequiredMiddleware:
             return self.get_response(request)
         # Otherwise, redirect to login
         return redirect('/login/')
+    
+    def __call__(self, request):
+        request.is_logged_in = request.session.get('user_id') is not None
+        response = self.get_response(request)
+        return response
