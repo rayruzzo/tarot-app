@@ -14,10 +14,15 @@
         <h3>Your Readings</h3>
         {% for reading in readings %}
             <div class="reading">
-                <h4>{{ reading.title }}</h4>
-                <a href="/readings/{{ reading.id }}" class="btn">View Details</a>
+                <h4>{{ reading.question }}</h4>
+                <p>{{ reading.createdAt}} </p>
+                <a href="/readings/{{ reading.id }}" class="btn-small">View Details</a>
             </div>
         {% endfor %}
+
+        {% if readings|length == 3 %}
+            <a href="/readings/" class="btn">View All Readings</a>
+        {% endif %}
 
     </div>
     {% endif %}

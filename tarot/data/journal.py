@@ -78,6 +78,8 @@ def get_all_journal_entries(user_id):
         guided_entries = GuidedJournalEntry.objects.filter(readingId__userId=user_id)
         freeform_entries = FreeFormJournalEntry.objects.filter(readingId__userId=user_id)
         entries = list(guided_entries) + list(freeform_entries)
+        if n:
+            entries = entries[:n]   
         return {"status": "success", "data": entries}
     except Exception as e:
         return {"status": "error", "message": str(e)}

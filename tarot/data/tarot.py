@@ -93,10 +93,13 @@ def getReadingById(readingId: str) -> Reading | None:
     except Exception as e:
         return None
     
-def getReadingsByUser(userId: str) -> list:
+def getReadingsByUser(userId: str, n=None) -> list:
     try:
         readings = Reading.objects(user=userId).all()
-        return list(readings)
+        readings = list(readings)
+        if n:
+            readings = readings[:n]
+        return readings
     except ValidationError:
         return []
     
