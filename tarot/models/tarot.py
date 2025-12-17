@@ -105,7 +105,7 @@ class Reading(Document):
     
     def to_dict(self):
         interpretation = self.interpretator.interpretation if hasattr(self.interpretator, 'interpretation') else None
-        created_at_str = self.createdAt.isoformat() if self.createdAt else None
+        created_at_str = self.createdAt.strftime("%m/%d/%y") if self.createdAt else None
         journal_dict = self.journal.to_dict() if self.journal else None
         return {
             "_id": str(self.id),

@@ -104,6 +104,12 @@ h3 {
   font-size: 1.5rem;
 }
 
+a {
+  color: var(--color-bg-alt);
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
 /* ===== Enhanced Buttons ===== */
 .btn, 
 .button, 
@@ -468,7 +474,10 @@ form .button:hover {
 
 /* ===== Header & Footer ===== */
 header {
-display: flex;
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   background: rgba(18, 25, 45, 0.85);
   backdrop-filter: blur(12px);
   justify-content: space-between;
@@ -553,3 +562,60 @@ footer {
     font-size: 0.95rem;
   }
 }
+
+/* Compact reading card style */
+ .reading {
+    display: flex;
+    align-items: stretch;
+    gap: 1.2em;
+    background: #23232b;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    padding: 1em 1.5em;
+    margin-bottom: 1.2em;
+    transition: box-shadow 0.2s;
+  }
+  .reading:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+  .reading-left {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 120px;
+  }
+  .reading .btn-small {
+    font-size: 0.95em;
+    padding: 0.3em 0.8em;
+    border-radius: 5px;
+  }
+  .reading-cards {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .reading img.tarot-img {
+    width: 60px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  }
+  .reading-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    width: 220px;
+    text-align: right;
+  }
+  .reading-info h4 {
+    margin: 0 0 0.2em 0;
+    font-size: 1.1em;
+  }
+  .reading-info p {
+    margin: 0 0 0.3em 0;
+    font-size: 0.95em;
+    color: #bdbdbd;
+  }

@@ -110,7 +110,7 @@ class EditJournalEntryView(APIView):
 
             if type_enum == JournalEntryType.FREEFORM:
                 content = data.get('content')
-                entry = update_journal_entry(entry_id, type_enum, content=content)
+                entry = update_journal_entry(entry_id, type_enum, content)
                 return redirect(f"/readings/{reading_id}/")
 
             if type_enum == JournalEntryType.GUIDED:
