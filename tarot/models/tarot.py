@@ -34,8 +34,38 @@ class TarotCard(Document):
 class ReadingType(Enum):
     PPF = "past_present_future"
     LILIA = "lilias_safe_passage"
+    SINGLE = "single_card"
 
-
+class Reading(Document):
+    created_at = DateTimeField(required=True, default=datetime.utcnow)
+    user = StringField(required=True)
+    question = StringField(required=True)
+    readingType = EnumField(ReadingType, required=True)
+    cards = GenericReferenceField(required=True)
+    reversals = ListField(required=True)
+    interpretator = GenericReferenceField(required=False)
+    journal = GenericReferenceField(required=False)
+    meta = {'collection': 'readings'}
+    def __str__(self):
+        cardString = self.cards.__str__()
+        return self.user + " - " + self.question + " - " + cardString
+    
+    def to_dict(self):
+        interpretation = self.interpretator.interpretation if hasattr(self.interpretator, 'interpretation') else None
+        created_at_str = self.created_at.strftime("%m/%d/%y") if self.created_at else None
+        journal_dict = self.journal.to_dict() if self.journal else None
+        return {
+            "_id": str(self.id),
+            "id": str(self.id),
+            "created_at": created_at_str,
+            "user": self.user,
+            "question": self.question,
+            "readingType": self.readingType.name,
+            "cards": self.cards.to_dict(),
+            "reversals": self.reversals,
+            "interpretation": interpretation,
+            "journal": journal_dict
+        }
 class PPFReading(Document):
     cards = IntField(required=True, default=3)
     past = ReferenceField(TarotCard, required=True)
@@ -88,34 +118,16 @@ class LiliaReading(Document):
             "windfall": self.windfall.to_dict() if self.windfall else None,
             "destination": self.destination.to_dict() if self.destination else None
         }
+        
+class SingleCardReading(Document):
+    cards = IntField(required=True, default=1)
+    card = ReferenceField(TarotCard, required=True)
+    meta = {'collection': 'single_card_readings'}
 
-class Reading(Document):
-    created_at = DateTimeField(required=True, default=datetime.utcnow)
-    user = StringField(required=True)
-    question = StringField(required=True)
-    readingType = EnumField(ReadingType, required=True)
-    cards = GenericReferenceField(required=True)
-    reversals = ListField(required=True)
-    interpretator = GenericReferenceField(required=False)
-    journal = GenericReferenceField(required=False)
-    meta = {'collection': 'readings'}
     def __str__(self):
-        cardString = self.cards.__str__()
-        return self.user + " - " + self.question + " - " + cardString
+        return "Card: " + str(self.card.name)
     
     def to_dict(self):
-        interpretation = self.interpretator.interpretation if hasattr(self.interpretator, 'interpretation') else None
-        created_at_str = self.created_at.strftime("%m/%d/%y") if self.created_at else None
-        journal_dict = self.journal.to_dict() if self.journal else None
         return {
-            "_id": str(self.id),
-            "id": str(self.id),
-            "created_at": created_at_str,
-            "user": self.user,
-            "question": self.question,
-            "readingType": self.readingType.name,
-            "cards": self.cards.to_dict(),
-            "reversals": self.reversals,
-            "interpretation": interpretation,
-            "journal": journal_dict
+            "card": self.card.to_dict() if self.card else None
         }

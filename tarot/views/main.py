@@ -72,7 +72,7 @@ class ReadingsView(APIView):
     def get(self, request):
         user_id = request.session.get('user_id')
         if user_id:
-            readings = get_readings_by_user(user_id)
+            readings = get_readings_by_user(user_id, None, '-created_at')
             readings = [reading.to_dict() for reading in readings]
             return render(request, 'readings.html', {'readings': readings})
         else:

@@ -5,12 +5,13 @@ import random
 import traceback
 
 from mongoengine.errors import ValidationError
-from ..models import Reading, LiliaReading, PPFReading, ReadingType, TarotCard
+from ..models import Reading, LiliaReading, PPFReading, ReadingType, TarotCard, SingleCardReading
 from ..config.tarot import TAROT_API_URL
 
 model_dispatcher = {
     ReadingType.LILIA: LiliaReading,
     ReadingType.PPF: PPFReading,
+    ReadingType.SINGLE: SingleCardReading,
 }
 
 def checkTarotCard(card: dict) -> TarotCard:

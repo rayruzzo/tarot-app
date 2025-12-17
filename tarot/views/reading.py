@@ -39,6 +39,7 @@ class NewReadingView(APIView):
 LAYOUT_MAP = {
     "LILIA": "tarot/layouts/lilias_safe_passage.html",
     "PPF": "tarot/layouts/past_present_future.html",
+    "SINGLE": "tarot/layouts/random_card.html",
 }
 
 class ReadingView(APIView):

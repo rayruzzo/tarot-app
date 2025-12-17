@@ -1,1 +1,22 @@
-{{card.name}}
+{% block reading %}
+<div class="tarot-reading-spread">
+<h2>Single Card Spread</h2>
+</div>
+
+<div class="tarot-reading-container">
+    <div class="tarot-row">
+      <div class="tarot-card-wrapper">
+        {% if reading.reversals.0 %}
+          <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.card.img }}">
+          <div class="card-title">{{ reading.cards.card.name }}</div>
+          <p class="reversed-text">Reversed: {{ reading.cards.card.meaning_rev }}</p>
+        {% else %}
+          <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.card.img }}">
+          <div class="card-title">{{ reading.cards.card.name }}</div>
+          <p class="upright-text">{{ reading.cards.card.meaning_up }}</p>
+        {% endif %}
+      </div>
+    </div>
+</div>
+{% endblock %}
+     
