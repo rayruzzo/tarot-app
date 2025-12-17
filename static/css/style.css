@@ -1,3 +1,49 @@
+/* ===== Journal Entry Styles ===== */
+.journal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5em;
+  margin-bottom: 1.2em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--color-border-light);
+}
+.journal-header .date {
+  font-size: 1.05em;
+  color: var(--color-accent-2);
+  font-weight: 500;
+}
+.journal-header .updated-date {
+  font-size: 0.95em;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.journal-entry {
+  background: rgba(26, 35, 64, 0.85);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5em 2em;
+  margin-bottom: 2em;
+}
+.journal-entry .question {
+  font-size: 1.08em;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-top: 1.1em;
+  margin-bottom: 0.3em;
+}
+.journal-entry .answer {
+  font-size: 1.05em;
+  color: var(--color-text-main);
+  background: rgba(18, 25, 45, 0.7);
+  border-radius: 6px;
+  padding: 0.7em 1em;
+  margin-bottom: 0.7em;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  border-left: 3px solid var(--color-accent-2);
+}
 
 /* ===== CSS Variables ===== */
 :root {

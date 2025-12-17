@@ -67,3 +67,13 @@ class HomeView(APIView):
             return render(request, 'home.html', {'user_id': user_id, 'user_email': user_email, 'user_name': user_name, 'readings': readings})
         else:
             return render(request, 'joinus.html')
+        
+class ReadingsView(APIView):
+    def get(self, request):
+        user_id = request.session.get('user_id')
+        if user_id:
+            readings = getReadingsByUser(user_id)
+            readings = [reading.to_dict() for reading in readings]
+            return render(request, 'readings.html', {'readings': readings})
+        else:
+            return redirect('login')

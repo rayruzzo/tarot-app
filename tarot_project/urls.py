@@ -24,7 +24,7 @@ from tarot.views import (
     LoginView, SignUpView, LogoutView,
     HomeView, InterpretationAPIView,
     UserJournalView, CreateJournalEntryView, JournalEntryView,
-    EditJournalEntryView
+    EditJournalEntryView, ReadingsView
 )
 
 urlpatterns = [
@@ -33,7 +33,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', SignUpView.as_view(), name='signup'),
-    path('readings/', UserJournalView.as_view(), name='user_readings'),
+    path('readings/', ReadingsView.as_view(), name='user_readings'),
     path('readings/new/', NewReadingView.as_view(), name='new_reading'),
     path('readings/<str:reading_id>/', ReadingView.as_view(), name='reading'),
     path('readings/<str:reading_id>/journal/new/', CreateJournalEntryView.as_view(), name='create_journal_entry'),

@@ -7,6 +7,14 @@ def create_journal_entry(readingId, entry_type, **kwargs):
     date = datetime.now().date()
     reading = getReadingById(readingId)
     try:
+        existing = None
+        if entry_type == JournalEntryType.GUIDED:
+            existing = GuidedJournalEntry.objects(readingId=str(reading.id)).first()
+        elif entry_type == JournalEntryType.FREEFORM:
+            existing = FreeFormJournalEntry.objects(readingId=readingId).first()
+        if existing:
+            return {"status": "exists", "data": existing}
+
         if entry_type == JournalEntryType.GUIDED:
             journal = GuidedJournalEntry(
                 created_at=date,
@@ -19,7 +27,7 @@ def create_journal_entry(readingId, entry_type, **kwargs):
                 context=kwargs['context'],
                 action=kwargs['action'],            
             )
-        if entry_type == JournalEntryType.FREEFORM:
+        elif entry_type == JournalEntryType.FREEFORM:
             journal = FreeFormJournalEntry(
                 created_at=date,
                 updated_at=date,
@@ -27,6 +35,8 @@ def create_journal_entry(readingId, entry_type, **kwargs):
                 type=entry_type.value,
                 content=kwargs['content']
             )
+        else:
+            return {"status": "error", "message": "Unknown journal entry type."}
         journal.save()
         reading.journal = journal
         reading.save()

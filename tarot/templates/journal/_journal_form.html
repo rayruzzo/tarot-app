@@ -6,7 +6,7 @@
   <label><input type="radio" name="journal_type" value="freeform"> Freeform</label>
 </div>
 
-<form id="guided-form" method="post" action="{% url 'user_journal' reading_id=reading_id %}">
+<form id="guided-form" method="post" action="{% url 'create_journal_entry' reading_id=reading_id %}">
   {% csrf_token %}
   <div style="color: red;">{{ guided_form.errors }}</div>
   {{ guided_form.as_p }}
@@ -14,7 +14,7 @@
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
-<form id="freeform-form" method="post" action="{% url 'user_journal' reading_id=reading_id %}">
+<form id="freeform-form" method="post" action="{% url 'create_journal_entry' reading_id=reading_id %}">
   {% csrf_token %}
   <div style="color: red;">{{ freeform_form.errors }}</div>
   {{ freeform_form.as_p }}

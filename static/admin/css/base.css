@@ -463,10 +463,13 @@ input[type=number], input[type=tel], textarea, select, .vTextField {
     background-color: var(--body-bg);
 }
 
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus,
-input[type=url]:focus, input[type=number]:focus, input[type=tel]:focus,
-textarea:focus, select:focus, .vTextField:focus {
-    border-color: var(--body-quiet-color);
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  background-color: var(--body-bg) !important;
+  color: var(--body-fg) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--body-bg) inset !important;
+  -webkit-text-fill-color: var(--body-fg) !important;
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 select {

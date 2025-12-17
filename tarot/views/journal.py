@@ -27,36 +27,6 @@ class JournalEntryView(APIView):
         }
         return render(request, 'journal/journal_entry.html', {'entry': entry.to_dict(), 'questions': guided_questions})
 
-    def post(self, request, reading_id, entry_id):
-        try:
-            data = request.data
-            type_str = data.get('type')
-            try:
-                type_enum = JournalEntryType[type_str]
-            except (KeyError, TypeError):
-                return Response({'error': f'Invalid journal entry type: {type_str}'}, status=status.HTTP_400_BAD_REQUEST)
-
-            if type_enum == JournalEntryType.FREEFORM:
-                content = data.get('content')
-                entry = update_journal_entry(entry_id, type_enum, content=content)
-                return redirect(f"/readings/{reading_id}/, {'entry': entry.to_dict()}")
-
-
-            if type_enum == JournalEntryType.GUIDED:
-                kwargs = {
-                    'feel': data.get('feel'),
-                    'notice': data.get('notice'),
-                    'connect': data.get('connect'),
-                    'context': data.get('context'),
-                    'action': data.get('action')
-                }
-                entry = create_journal_entry(reading_id, type_enum, **kwargs)
-                print(entry.type)
-                return redirect(f"/readings/{reading_id}/journal/", {'entry': entry.to_dict()})
-
-            return Response({'error': 'Unhandled journal entry type.'}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)  
     def delete(self, request, entry_id):
         try:
             delete_journal_entry(entry_id)
@@ -75,10 +45,41 @@ class CreateJournalEntryView(APIView):
             'reading_id': reading_id
         })
     
+    def post(self, request, reading_id):
+        try:
+            data = request.data
+            type_str = data.get('type')
+            try:
+                type_enum = JournalEntryType[type_str]
+            except (KeyError, TypeError):
+                return Response({'error': f'Invalid journal entry type: {type_str}'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+            if type_enum == JournalEntryType.FREEFORM:
+                content = data.get('content')
+                entry = create_journal_entry(reading_id, type_enum, content=content).get('data')
+                return redirect(f"/readings/{reading_id}/")
+
+            if type_enum == JournalEntryType.GUIDED:
+                kwargs = {
+                    'feel': data.get('feel'),
+                    'notice': data.get('notice'),
+                    'connect': data.get('connect'),
+                    'context': data.get('context'),
+                    'action': data.get('action')
+                }
+                entry = create_journal_entry(reading_id, type_enum, **kwargs).get('data')
+                return redirect(f"/readings/{reading_id}/journal/")
+
+            return Response({'error': 'Unhandled journal entry type.'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)  
+    
 class EditJournalEntryView(APIView):
     def get(self, request, **kwargs):
         entry_id = kwargs.get('entry_id')
         entry_type = request.query_params.get('entry_type')
+        reading_id = kwargs.get('reading_id')
         print(entry_type)
         if entry_type == '1':
             entry = GuidedJournalEntry.objects.get(id=ObjectId(entry_id)) 
@@ -98,7 +99,7 @@ class EditJournalEntryView(APIView):
             'entry_id': entry_id,
             'reading_id': entry.readingId if entry and getattr(entry, 'readingId', None) else None,
         }
-        return render(request, 'journal/edit_journal.html', context)
+        return render(request, f'readings/{reading_id}', context)
     def post(self, request, reading_id, entry_id):
         try:
             data = request.data
