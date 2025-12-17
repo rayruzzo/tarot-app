@@ -90,7 +90,7 @@ class LiliaReading(Document):
         }
 
 class Reading(Document):
-    createdAt = DateTimeField(required=True, default=datetime.utcnow)
+    created_at = DateTimeField(required=True, default=datetime.utcnow)
     user = StringField(required=True)
     question = StringField(required=True)
     readingType = EnumField(ReadingType, required=True)
@@ -105,12 +105,12 @@ class Reading(Document):
     
     def to_dict(self):
         interpretation = self.interpretator.interpretation if hasattr(self.interpretator, 'interpretation') else None
-        created_at_str = self.createdAt.strftime("%m/%d/%y") if self.createdAt else None
+        created_at_str = self.created_at.strftime("%m/%d/%y") if self.created_at else None
         journal_dict = self.journal.to_dict() if self.journal else None
         return {
             "_id": str(self.id),
             "id": str(self.id),
-            "createdAt": created_at_str,
+            "created_at": created_at_str,
             "user": self.user,
             "question": self.question,
             "readingType": self.readingType.name,

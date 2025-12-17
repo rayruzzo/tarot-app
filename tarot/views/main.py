@@ -4,7 +4,7 @@ from rest_framework import status
 from django.shortcuts import render, redirect
 from ..forms import loginForm, signUpForm
 from ..data.users import create_user, get_user_by_email, validate_password
-from ..data.tarot import getReadingsByUser
+from ..data.tarot import get_readings_by_user
 
 class LoginView(APIView):
     def get(self, request):
@@ -62,7 +62,7 @@ class HomeView(APIView):
         user_email = request.session.get('user_email')
         user_name = request.session.get('user_name')
         if user_id:
-            readings = getReadingsByUser(user_id, 3)
+            readings = get_readings_by_user(user_id, 3, '-created_at')
             readings = [reading.to_dict() for reading in readings]
             return render(request, 'home.html', {'user_id': user_id, 'user_email': user_email, 'user_name': user_name, 'readings': readings})
         else:
@@ -72,7 +72,7 @@ class ReadingsView(APIView):
     def get(self, request):
         user_id = request.session.get('user_id')
         if user_id:
-            readings = getReadingsByUser(user_id)
+            readings = get_readings_by_user(user_id)
             readings = [reading.to_dict() for reading in readings]
             return render(request, 'readings.html', {'readings': readings})
         else:

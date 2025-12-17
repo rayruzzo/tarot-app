@@ -93,9 +93,12 @@ def getReadingById(readingId: str) -> Reading | None:
     except Exception as e:
         return None
     
-def getReadingsByUser(userId: str, n=None) -> list:
+def get_readings_by_user(userId: str, n=None, order=None) -> list:
     try:
-        readings = Reading.objects(user=userId).all()
+        if order:
+            readings = Reading.objects(user=userId).order_by(order).all()
+        else:
+            readings = Reading.objects(user=userId).all()
         readings = list(readings)
         if n:
             readings = readings[:n]
