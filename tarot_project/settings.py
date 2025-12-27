@@ -19,12 +19,16 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+# Allow all hosts for development, specify in production
 ALLOWED_HOSTS = [
     ".onrender.com",
     "localhost",
+    "127.0.0.1",
 ]
+
+# Get port from environment variable (useful for Render/Heroku)
+PORT = int(os.environ.get("PORT", 10000))
 
 
 # Application definition
@@ -42,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'tarot.middleware.login_required.SessionLoginRequiredMiddleware',
     'django.middleware.common.CommonMiddleware',
