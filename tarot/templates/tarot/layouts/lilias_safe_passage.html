@@ -12,9 +12,11 @@
     <h3>Path Behind</h3>
     {% if reading.reversals.2 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.path_behind.img }}">
+      <div class="card-title">{{ reading.cards.path_behind.name }}</div>
       <p class="reversed-text">Reversed: {{ reading.cards.path_behind.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.path_behind.img }}">
+      <div class="card-title">{{ reading.cards.path_behind.name }}</div>
       <p class="upright-text">{{ reading.cards.path_behind.meaning_up }}</p>
     {% endif %}
   </div>
@@ -22,9 +24,11 @@
     <h3>Path Ahead</h3>
     {% if reading.reversals.3 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.path_ahead.img }}">
+      <div class="card-title">{{ reading.cards.path_ahead.name }}</div>
       <p class="reversed-text">Reversed: {{ reading.cards.path_ahead.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.path_ahead.img }}">
+      <div class="card-title">{{ reading.cards.path_ahead.name }}</div>
       <p class="upright-text">{{ reading.cards.path_ahead.meaning_up }}</p>
     {% endif %}
   </div>
@@ -36,9 +40,11 @@
     <h3>Obstacles</h3>
     {% if reading.reversals.4 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.obstacles.img }}">
+      <div class="card-title">{{ reading.cards.obstacles.name }}</div>
       <p class="reversed-text">Reversed: {{ reading.cards.obstacles.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.obstacles.img }}">
+      <div class="card-title">{{ reading.cards.obstacles.name }}</div>
       <p class="upright-text">{{ reading.cards.obstacles.meaning_up }}</p>
     {% endif %}
   </div>
@@ -46,9 +52,11 @@
     <h3>Traveler</h3>
     {% if reading.reversals.0 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.traveler.img }}">
+      <div class="card-title">{{ reading.cards.traveler.name }}</div>
       <p class="reversed-text">Reversed: {{ reading.cards.traveler.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.traveler.img }}">
+      <div class="card-title">{{ reading.cards.traveler.name }}</div>
       <p class="upright-text">{{ reading.cards.traveler.meaning_up }}</p>
     {% endif %}
   </div>
@@ -56,9 +64,11 @@
     <h3>Windfall</h3>
     {% if reading.reversals.5 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.windfall.img }}">
+      <div class="card-title">{{ reading.cards.windfall.name }}</div>
       <p class="reversed-text">Reversed: {{ reading.cards.windfall.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.windfall.img }}">
+      <div class="card-title">{{ reading.cards.windfall.name }}</div>
       <p class="upright-text">{{ reading.cards.windfall.meaning_up }}</p>
     {% endif %}
   </div>
@@ -66,15 +76,17 @@
 
 
 
-<!-- Row 3: What's Missing -->
+<!-- Row 3: What's Missing, Destination -->
 <div class="tarot-row">
   <div class="tarot-card-wrapper">
     <h3>What's Missing</h3>
     {% if reading.reversals.1 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.what_is_missing.img }}">
+      <div class="card-title">{{ reading.cards.what_is_missing.name }}</div>
       <p class="reversed-text">Reversed: {{ reading.cards.what_is_missing.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.what_is_missing.img }}">
+      <div class="card-title">{{ reading.cards.what_is_missing.name }}</div>
       <p class="upright-text">{{ reading.cards.what_is_missing.meaning_up }}</p>
     {% endif %}
   </div>
@@ -82,9 +94,11 @@
     <h3>Destination</h3>
     {% if reading.reversals.6 %}
       <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
+      <div class="card-title">{{ reading.cards.destination.name }}</div>
       <p class="reversed-text">Reversed: {{ reading.cards.destination.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
+      <div class="card-title">{{ reading.cards.destination.name }}</div>
       <p class="upright-text">{{ reading.cards.destination.meaning_up }}</p>
     {% endif %}
   </div>
