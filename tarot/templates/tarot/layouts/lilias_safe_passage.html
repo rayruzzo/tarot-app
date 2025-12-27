@@ -81,7 +81,7 @@
     <div class="tarot-card-wrapper">
     <h3>Destination</h3>
     {% if reading.reversals.6 %}
-      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.w.img }}">
+      <img class="tarot-img reversed" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
       <p class="reversed-text">Reversed: {{ reading.cards.destination.meaning_rev }}</p>
     {% else %}
       <img class="tarot-img" src="{{ MEDIA_URL }}{{ reading.cards.destination.img }}">
