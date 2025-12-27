@@ -1,8 +1,8 @@
 import mongoengine
+import os
+from dotenv import load_dotenv
 
-# Connect to the MongoDB database
-mongoengine.connect(
-    db='tarotdb',
-    host='localhost',
-    port=27017,
-)
+load_dotenv()
+MONGO_URI = os.getenv('MONGO_URI')
+
+mongoengine.connect(host=MONGO_URI)
