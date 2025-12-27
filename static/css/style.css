@@ -370,7 +370,7 @@ form select {
   padding-right: 2.5rem;
 }
 
-/* Form button styling */
+/* Form button width override */
 form button[type="submit"],
 form input[type="submit"],
 form .btn,
@@ -378,39 +378,7 @@ form .btn-primary,
 form .button {
   width: 100%;
   margin-top: 0.5rem;
-  display: block;
-  padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
-  color: #1A1A1A !important;
-  font-weight: 700;
-  font-size: 1.05rem;
-  text-align: center;
-  text-decoration: none !important;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 2px solid rgba(212, 175, 55, 0.4);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25),
-              inset 0 1px 3px rgba(255, 255, 255, 0.2),
-              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
   min-width: auto;
-}
-
-form button[type="submit"]:hover,
-form input[type="submit"]:hover,
-form .btn:hover,
-form .btn-primary:hover,
-form .button:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4),
-              inset 0 1px 3px rgba(255, 255, 255, 0.3),
-              inset 0 -2px 3px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent) 100%);
-  border-color: var(--color-accent-2);
 }
 
 /* ===== Tarot Card Styles ===== */
