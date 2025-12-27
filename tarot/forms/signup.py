@@ -5,7 +5,7 @@ class signUpForm(Form):
     email = EmailField()
     password = CharField(widget=PasswordInput())
     confirm_password = CharField(widget=PasswordInput())
-    dob = DateField()
+    dob = DateField(label='Date of Birth')
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
