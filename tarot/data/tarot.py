@@ -30,7 +30,7 @@ def checkTarotCard(card: dict) -> TarotCard:
             meaning_up=card['meaning_up'],
             meaning_rev=card['meaning_rev'],
             desc=card['desc'],
-            img=f"/media/{card['name'].replace(' ', '_')}.jpg"
+            img=f"{card['name'].replace(' ', '_')}.jpg"
             ) 
         new_card.save()
         return new_card   
