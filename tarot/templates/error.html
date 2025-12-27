@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Error{% endblock %}
+{% block content %}
+<div class="container" style="text-align: center; padding: 3rem 2rem;">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h1 style="color: var(--color-accent); font-size: 3rem; margin-bottom: 1rem;">⚠️</h1>
+        <h2 style="color: var(--color-accent-2); margin-bottom: 1.5rem;">Oops! Something went wrong</h2>
+        
+        {% if error_message %}
+        <div class="error-message" style="color: #ff6b6b; background: rgba(255, 107, 107, 0.1); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 3px solid #ff6b6b;">
+            <p style="font-size: 1.1rem; margin: 0;">{{ error_message }}</p>
+        </div>
+        {% else %}
+        <p style="color: var(--color-text-muted); margin-bottom: 2rem; font-size: 1.1rem;">
+            We couldn't complete your request. Please try again.
+        </p>
+        {% endif %}
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="/" class="btn btn-primary">Go Home</a>
+            <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

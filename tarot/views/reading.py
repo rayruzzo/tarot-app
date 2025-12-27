@@ -44,21 +44,29 @@ LAYOUT_MAP = {
 class ReadingView(APIView):
     def get(self, request, reading_id):
         try:
+            user_id = request.session.get('user_id')
+            if not user_id:
+                return redirect('login')
+            
             reading = getReadingById(reading_id)
-            if reading:
-                reading_dict = reading.to_dict()
-                template_key = reading_dict['readingType']
-                print(template_key)
-                reading_json = json.dumps(reading_dict)
-                return render(request, 'tarot/reading_template.html', {
-                    'reading': reading_dict, 
-                    'reading_json': reading_json,
-                    'layout_template': LAYOUT_MAP[template_key]
-                })
-            else:
-                return Response({'error': 'Reading not found'}, status=status.HTTP_404_NOT_FOUND)
+            if not reading:
+                return render(request, 'error.html', {'error_message': 'Reading not found'})
+            
+            # Check if the reading belongs to the logged-in user
+            if str(reading.user) != str(user_id):
+                return render(request, 'error.html', {'error_message': 'You do not have permission to view this reading'})
+            
+            reading_dict = reading.to_dict()
+            template_key = reading_dict['readingType']
+            print(template_key)
+            reading_json = json.dumps(reading_dict)
+            return render(request, 'tarot/reading_template.html', {
+                'reading': reading_dict, 
+                'reading_json': reading_json,
+                'layout_template': LAYOUT_MAP[template_key]
+            })
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return render(request, 'error.html', {'error_message': f'An error occurred: {str(e)}'})
     def delete(self, request, reading_id):
         try:
             deleteReading(reading_id)

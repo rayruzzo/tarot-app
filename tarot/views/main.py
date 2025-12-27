@@ -23,9 +23,9 @@ class LoginView(APIView):
                     request.session['user_email'] = user.email
                     request.session['user_name'] = user.username if hasattr(user, 'username') else user.name
                     return redirect('home')
-            return Response({'error': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+            return render(request, 'login.html', {'form': form, 'error': 'Invalid email or password'})
         else:
-            return Response({'error': 'Invalid form data'}, status=status.HTTP_400_BAD_REQUEST)
+            return render(request, 'login.html', {'form': form, 'error': 'Invalid form data'})
         
 class SignUpView(APIView):
     def get(self, request):
@@ -47,9 +47,9 @@ class SignUpView(APIView):
                 request.session['user_name'] = user.username
                 return redirect('home')
             else:
-                return Response({'error': 'Failed to create user'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return render(request, 'signup.html', {'form': form, 'error': 'Failed to create user'})
         else:
-            return Response({'error': 'Invalid form data'}, status=status.HTTP_400_BAD_REQUEST) 
+            return render(request, 'signup.html', {'form': form, 'error': 'Invalid form data'}) 
         
 class LogoutView(APIView):
     def get(self, request):
