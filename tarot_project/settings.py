@@ -2,13 +2,21 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from tarot.config import mongoConfig
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# Load environment variables from .env file
 load_dotenv()
-from tarot.config import mongoConfig
+# Cloudinary configuration
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+cloudinary.config(cloudinary_url=CLOUDINARY_URL)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -40,6 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage', 
+    'cloudinary',
     'tarot',
     'rest_framework'
 ]
