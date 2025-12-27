@@ -5,6 +5,12 @@ from ..models import User, UserPassword
 
 @handle_errors
 def create_user(username, email, dob, password):
+    if User.objects(username=username).first():
+        raise ValueError("Username already exists")
+    
+    if User.objects(email=email).first():
+        raise ValueError("Email already exists")
+    
     now = datetime.datetime.now().date()
     age = (now - dob).days // 365
     if age < 18:

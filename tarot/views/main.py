@@ -40,8 +40,13 @@ class SignUpView(APIView):
             dob = form.cleaned_data['dob']
             result = create_user(username, email, dob, password)
             print(result)
-            user = result['user']
-            if user:
+            
+            # Check if result is an error string or a success dict
+            if isinstance(result, str):
+                # Error occurred
+                return render(request, 'signup.html', {'form': form, 'error': result})
+            elif result and 'user' in result:
+                user = result['user']
                 request.session['user_id'] = str(user.id)
                 request.session['user_email'] = user.email
                 request.session['user_name'] = user.username
