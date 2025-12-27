@@ -13,7 +13,7 @@
         <h1><a href="/">Wayfindr</a></h1>
     </div>
     <div class="header-right">
-        {% if request.is_logged_in %}
+        {% if request.session.user_id %}
             <span>Welcome, {{ request.session.user_name}}</span>
             <a href="/logout/" class="btn-small">Logout</a>
         {% else %}
